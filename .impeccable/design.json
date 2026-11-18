@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-18T11:39:47.952710+00:00",
+  "title": "Design System: Mapty — journal sportif",
+  "extensions": {
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "420px"
+      },
+      {
+        "name": "tablet",
+        "value": "700px"
+      },
+      {
+        "name": "desktop",
+        "value": "1050px"
+      }
+    ],
+    "motion": [
+      {
+        "name": "controls",
+        "value": "background-color 150ms ease-out",
+        "purpose": "Réponse discrète des contrôles ; désactivée en mouvement réduit."
+      }
+    ],
+    "shadows": [
+      {
+        "name": "map-status",
+        "value": "0 4px 12px #20352a26",
+        "purpose": "État de chargement lisible sur les tuiles."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Action principale",
+      "kind": "button",
+      "description": "Action principale",
+      "html": "<button class=\"ds-primary\">Enregistrer la séance</button>",
+      "css": ".ds-primary {background:var(--color-brand--2);color:#102e20;border:0;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif}.ds-primary:hover{background:#36da8d}.ds-primary:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}",
+      "refersTo": "button-primary"
+    },
+    {
+      "name": "Action secondaire",
+      "kind": "button",
+      "description": "Action secondaire",
+      "html": "<button class=\"ds-secondary\">Me localiser</button>",
+      "css": ".ds-secondary{background:var(--color-dark--2);color:var(--color-light--2);border:1px solid #68757c;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif}.ds-secondary:hover{background:#505b62}.ds-secondary:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}",
+      "refersTo": "button-surface"
+    },
+    {
+      "name": "Champ de séance",
+      "kind": "input",
+      "description": "Champ de séance",
+      "html": "<label class=\"ds-field\">Distance (km)<input placeholder=\"Ex. : 5,5\" inputmode=\"decimal\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;color:var(--color-light--2);font:600 13px Manrope,sans-serif}.ds-field input{background:var(--color-dark--1);color:var(--color-light--2);border:1px solid #78868c;border-radius:6px;padding:9px 10px;min-height:44px;font:400 15px Manrope,sans-serif}.ds-field input:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}@media(max-width:420px){.ds-field input{font-size:16px}}.ds-field input[aria-invalid=\"true\"]{border-color:var(--color-error)}",
+      "refersTo": "input"
+    },
+    {
+      "name": "Fiche de séance",
+      "kind": "card",
+      "description": "Fiche de séance",
+      "html": "<article class=\"ds-workout\"><strong>Course à pied</strong><p>5,5 km · 30 min</p><button>Modifier</button></article>",
+      "css": ".ds-workout{background:var(--color-dark--2);color:var(--color-light--2);border-radius:12px;padding:16px;font:400 15px Manrope,sans-serif}.ds-workout strong,.ds-workout button{color:var(--color-running-text)}.ds-workout button{background:none;border:0;text-decoration:underline;min-height:44px;padding:8px 0;font:400 13px Manrope,sans-serif;text-underline-offset:4px}.ds-workout button:focus-visible{outline:3px solid var(--color-brand--1)}",
+      "refersTo": "workout"
+    },
+    {
+      "name": "État de carte",
+      "kind": "custom",
+      "description": "État de carte",
+      "html": "<div class=\"ds-map-state\">Chargement du fond de carte…</div>",
+      "css": ".ds-map-state{background:var(--color-dark--1);color:var(--color-light--2);border-radius:7px;padding:10px 14px;font:400 13px Manrope,sans-serif;box-shadow:0 4px 12px #20352a26}"
+    },
+    {
+      "name": "Action discrète",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Exporter",
+      "html": "<button class=\"ds-quiet\">Exporter</button>",
+      "css": ".ds-quiet{border:1px solid transparent;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif;transition:background-color 150ms ease-out;background:transparent;color:var(--color-light--2);padding-inline:9px;}.ds-quiet:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}.ds-quiet:hover:not(:disabled){background:var(--color-dark--2)}"
+    },
+    {
+      "name": "Confirmation destructive",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Supprimer",
+      "html": "<button class=\"ds-danger\">Supprimer</button>",
+      "css": ".ds-danger{border:1px solid transparent;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif;transition:background-color 150ms ease-out;background:var(--color-error);color:#50130c;}.ds-danger:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Un journal sportif clair, fidèle à Mapty.",
+    "overview": "L’identité est conservée : logo Mapty, Manrope, surfaces anthracite, vert pour\nla course et ambre pour le vélo. Le journal sert à enregistrer une séance,\nla retrouver et comprendre son bilan.",
+    "keyCharacteristics": [],
+    "rules": [],
+    "dos": [
+      "Préserver le logo, la typographie et la correspondance des couleurs avec les sports.",
+      "Afficher les erreurs et les restrictions de sauvegarde près des actions.",
+      "Conserver l’accès au journal sans localisation et sans fond de carte."
+    ],
+    "donts": [
+      "Ne pas ajouter de framework, de page marketing ou de fonctions sociales.",
+      "Ne pas prétendre enregistrer un trajet GPS ni synchroniser les données."
+    ]
+  }
+}

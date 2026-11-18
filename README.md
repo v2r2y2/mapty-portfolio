@@ -1,12 +1,11 @@
-# Mapty — copie locale du projet du cours
+# Mapty — mon journal sportif
 
-Application originale de **Jonas Schmedtmann**, extraite sans modification de
-`complete-javascript-course-master/15-Mapty/final`.
-Le dossier `starter` du cours est le point de départ ; `final` est la version complète.
+Journal personnel de courses à pied et de sorties vélo, développé à partir de
+Mapty de **Jonas Schmedtmann**. La base HTML, CSS, JavaScript et Leaflet est conservée,
+ainsi que les modèles `Workout`, `Running`, `Cycling` et la classe `App`.
+**Aucun framework, gestionnaire de dépendances ou outil de compilation.**
 
-## Démarrer en local
-
-Python 3 est déjà installé sur ce Mac. Depuis un terminal :
+## Démarrer sur ce Mac
 
 ```sh
 cd /Users/marcbookairm1/Documents/PROJETS_JS/mapty-portfolio
@@ -14,56 +13,91 @@ python3 -m http.server 8080 --bind 127.0.0.1
 ```
 
 Ouvrir <http://127.0.0.1:8080>. Pour arrêter le serveur : `Ctrl+C`.
-Aucune installation npm, aucun build et aucune clé API ne sont nécessaires.
-Une connexion Internet est nécessaire pour Leaflet 1.6.0 (unpkg), la police
-Google Fonts et les fonds de carte OpenStreetMap.
+Si un serveur fonctionne déjà sur ce port, ouvrir simplement l’adresse existante.
+Le serveur local doit rester limité au projet : ne pas le lancer dans le dossier du cours.
 
-## Utilisation
+## Utiliser le journal
 
-1. Autoriser la localisation dans le navigateur pour afficher la carte.
-2. Cliquer sur la carte pour ouvrir le formulaire.
-3. Choisir Running (course) ou Cycling (vélo), saisir distance et durée,
-   puis cadence ou dénivelé. Appuyer sur Entrée pour enregistrer.
-4. Cliquer sur une activité pour recentrer la carte.
-5. Les activités sont conservées dans le stockage local de ce navigateur,
-   pour cette adresse et ce port. Recharger la page pour les retrouver.
+- Cliquer sur **Nouvelle séance**, **Ajouter ici**, ou sur un point de la carte.
+- Saisir le sport, la date, la distance et la durée ; ajouter la cadence pour
+  une course ou le dénivelé pour une sortie vélo. Les décimales avec une virgule
+  ou un point sont acceptées. Le dénivelé peut être nul ou négatif.
+- Enregistrer avec le bouton visible. Modifier ou supprimer une séance depuis
+  sa fiche. Une suppression demande confirmation.
+- Le bilan de **cette semaine** couvre le lundi au dimanche, tous sports confondus.
+  Les filtres de la liste ne changent pas ce bilan. La liste et les marqueurs
+  utilisent les mêmes filtres de sport et de période.
+- **Voir sur la carte** ouvre le marqueur. Le journal associe un lieu à une
+  séance ; il n’enregistre pas le trajet GPS.
+- Sur téléphone, le journal et la carte se suivent. Le lien du formulaire
+  permet d’aller à la carte ; **Choisir ce lieu** utilise son centre. Le clavier
+  permet aussi de déplacer la carte puis d’utiliser ce bouton.
 
-La version originale affiche une alerte si la localisation est refusée et ne
-charge alors pas la carte. Autoriser la localisation puis recharger la page.
+## Chargement et localisation
 
-## Structure
+Leaflet **1.6.0**, ses images et la police Manrope sont distribués localement dans
+`vendor/`. Leur version d’origine est conservée ; aucune mise à niveau n’est faite.
+La carte démarre sans demander la position : dernière vue mémorisée, sinon Abidjan.
+**Me localiser** est facultatif. Le délai d’acquisition est limité à 7 secondes,
+avec un délai applicatif de 9 secondes couvrant aussi une permission sans réponse.
+Un échec de localisation ne bloque jamais le journal.
 
-- `index.html` : interface et chargement de Leaflet depuis le CDN.
-- `style.css` : styles d'origine.
-- `script.js` : géolocalisation, carte, activités et stockage local.
-- `logo.png`, `icon.png` : ressources visuelles d'origine.
-- `Mapty-*.png`, `other.js`, `.prettierrc` : fichiers du dossier final, conservés.
-- `COURSE_README.md` : documentation originale du cours, conservée intégralement.
+Internet reste nécessaire pour les fonds de carte OpenStreetMap France.
+Les échecs de tuiles sont signalés avec une action pour réessayer. Le journal,
+les formulaires, l’import et l’export restent accessibles sans fond de carte.
 
-## Crédits et conditions d'utilisation d'origine
+## Sauvegardes et compatibilité
 
-© Jonas Schmedtmann. Les crédits visibles dans l'application sont conservés.
-Le dossier de cours fourni ne contient aucun fichier LICENSE séparé ; aucune
-nouvelle licence n'est attribuée à cette copie. Les conditions originales dans
-`index.html` sont conservées :
+Les séances restent dans le stockage local du navigateur, clé `workouts`, pour
+cette adresse et ce port. Elles ne sont ni synchronisées ni envoyées vers un serveur.
+Le passage entre `localhost` et `127.0.0.1`, ou le changement de port/navigateur,
+donne accès à un autre stockage : utiliser l’export pour transférer le journal.
+
+Les anciennes sauvegardes du cours sont relues automatiquement : identifiants,
+coordonnées, dates et valeurs sont conservés, les descriptions sont recalculées en français.
+Un historique illisible est conservé sans écrasement. L’interface permet de le
+récupérer brut avant une réinitialisation explicitement confirmée.
+Si le stockage est inaccessible ou plein, les changements restent dans l’onglet
+et un message demande d’exporter avant de le fermer.
+
+**Exporter** télécharge un fichier JSON versionné. **Importer** accepte ce format
+ou un tableau de séances de l’ancienne version. L’import fusionne les séances :
+un identifiant déjà présent conserve sa version locale. Un fichier mal formé
+est rejeté intégralement. Limites : 10 Mo par fichier, 10 000 séances au total.
+
+## Vérifier la logique
+
+Avec Node.js déjà installé sur ce Mac, sans installation :
+
+```sh
+node --test tests/workouts.test.mjs
+```
+
+Les tests couvrent calculs, décimales françaises, dates, anciens historiques,
+validation des imports, fusion, bilans hebdomadaires et filtres.
+Les modules JavaScript natifs servent à isoler cette logique testable ; il n’y
+a aucune étape de compilation.
+
+## Crédits et conditions d’origine
+
+Application originale **Mapty © Jonas Schmedtmann**,
+issue de `complete-javascript-course-master/15-Mapty/final`.
+Le cours original n’est pas modifié. `COURSE_README.md` conserve sa documentation.
+Les ajouts personnels sont la francisation, la saisie datée, la gestion des séances,
+les bilans, filtres, sauvegardes et l’adaptation responsive.
+
+Le dossier du cours fourni ne contient aucun fichier LICENSE séparé.
+Aucune nouvelle licence n’est attribuée au code original. La mention d’origine
+est conservée dans l’interface, son code source et ici :
 
 > Use for learning or your portfolio. Don't use to teach. Don't claim as your own.
 
-Voir également la FAQ Q8 du fichier `COURSE_README.md` pour les conditions
-liées à l'utilisation dans un portfolio. Cette copie est présentée comme
-un projet du cours de Jonas Schmedtmann.
+Voir aussi la FAQ Q8 dans `COURSE_README.md`.
 
-Seul ce nouveau dossier possède son propre dépôt Git local. Aucun dépôt distant
-n'est configuré ; aucun push ni hébergement n'est effectué à cette étape.
+- Leaflet : Copyright Vladimir Agafonkin et contributeurs, licence BSD-2-Clause
+  conservée dans `vendor/leaflet/LICENSE`.
+- Manrope : licence SIL Open Font License, conservée dans `vendor/fonts/OFL.txt`.
+- Fonds de carte : contributeurs OpenStreetMap, tuiles OpenStreetMap France ;
+  attribution visible sur la carte.
 
-## Vérification locale du 18 novembre 2026
-
-Vérifié dans Chrome avec une position de test à Abidjan, sans accès à la
-position réelle de l'utilisateur : affichage des fonds de carte, course de
-5 km en 25 min à 170 pas/min (allure 5,0 min/km), sortie vélo de 20 km en
-60 min avec 120 m de dénivelé (vitesse 20,0 km/h), marqueurs, recentrage par
-clic sur une activité, conservation des deux activités et de leurs marqueurs
-après rechargement. Une distance négative a été refusée sans ajout d'activité.
-Aucune erreur JavaScript ni avertissement dans la console pendant les tests.
-Les activités de test ont été supprimées du navigateur après vérification.
-La géolocalisation réelle reste à autoriser dans votre navigateur.
+Le dépôt reste local. Aucun dépôt GitHub, push ou hébergement n’est créé.

@@ -1,138 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="shortcut icon" type="image/png" href="/icon.png" />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Mon journal sportif : courses à pied, sorties vélo et bilan de la semaine." />
+    <link rel="icon" type="image/png" href="./icon.png" />
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
     <link rel="stylesheet" href="style.css" />
-
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-      crossorigin=""
-    />
-    <script
-      defer
-      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-      crossorigin=""
-    ></script>
-
-    <!-- <script defer src="other.js"></script> -->
-    <script defer src="script.js"></script>
-    <title>mapty // Map your workouts</title>
+    <script defer src="vendor/leaflet/leaflet.js"></script>
+    <script type="module" src="script.js"></script>
+    <title>Mapty — Mon journal sportif</title>
   </head>
   <body>
-    <div class="sidebar">
-      <img src="logo.png" alt="Logo" class="logo" />
+    <a class="skip-link" href="#journal">Aller aux séances</a>
+    <main class="app">
+      <section class="sidebar" aria-labelledby="journal-title">
+        <header class="journal-header">
+          <img src="logo.png" alt="Mapty" class="logo" width="139" height="52" />
+          <h1 id="journal-title">Mon journal sportif</h1>
+          <p class="muted">Course à pied, vélo et progrès au fil des semaines.</p>
+        </header>
 
-      <ul class="workouts">
-        <form class="form hidden">
-          <div class="form__row">
-            <label class="form__label">Type</label>
-            <select class="form__input form__input--type">
-              <option value="running">Running</option>
-              <option value="cycling">Cycling</option>
-            </select>
+        <section class="summary" aria-labelledby="summary-title">
+          <div class="section-heading">
+            <h2 id="summary-title">Cette semaine</h2>
+            <span id="week-range" class="muted"></span>
           </div>
-          <div class="form__row">
-            <label class="form__label">Distance</label>
-            <input class="form__input form__input--distance" placeholder="km" />
-          </div>
-          <div class="form__row">
-            <label class="form__label">Duration</label>
-            <input
-              class="form__input form__input--duration"
-              placeholder="min"
-            />
-          </div>
+          <dl class="summary-values">
+            <div><dt>Séances</dt><dd id="summary-count">0</dd></div>
+            <div><dt>Distance</dt><dd><span id="summary-distance">0</span> <small>km</small></dd></div>
+            <div><dt>Durée</dt><dd><span id="summary-duration">0</span> <small>min</small></dd></div>
+          </dl>
+        </section>
 
-          <div class="form__row">
-            <label class="form__label">Cadence</label>
-            <input
-              class="form__input form__input--cadence"
-              placeholder="step/min"
-            />
+        <div class="journal-actions">
+          <button type="button" class="button button--primary" id="new-workout">Nouvelle séance</button>
+          <button type="button" class="button button--quiet" id="export-workouts">Exporter</button>
+          <button type="button" class="button button--quiet" id="import-workouts">Importer</button>
+          <a href="#map" class="text-button mobile-map-link">Carte</a>
+          <input type="file" id="import-file" accept="application/json,.json" hidden />
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <section id="storage-warning" class="notice" aria-label="Sauvegarde locale" hidden>
+          <p id="storage-warning-text"></p>
+          <div class="inline-actions">
+            <button type="button" class="text-button" id="download-recovery" hidden>Récupérer l’historique brut</button>
+            <button type="button" class="text-button" id="reset-storage" hidden>Réinitialiser après sauvegarde</button>
           </div>
-          <div class="form__row form__row--hidden">
-            <label class="form__label">Elev Gain</label>
-            <input
-              class="form__input form__input--elevation"
-              placeholder="meters"
-            />
+        </section>
+
+        <form class="form" id="workout-form" aria-labelledby="form-title" novalidate hidden>
+          <div class="section-heading">
+            <h2 id="form-title" tabindex="-1">Nouvelle séance</h2>
+            <button type="button" class="text-button" id="cancel-workout">Annuler</button>
           </div>
-          <button class="form__btn">OK</button>
+          <p class="muted form-location" id="form-location"></p>
+          <a class="choose-location" href="#map">Choisir le lieu sur la carte</a>
+          <div class="form-grid">
+            <div class="form__row">
+              <label for="workout-type">Sport</label>
+              <select id="workout-type" name="type"><option value="running">Course à pied</option><option value="cycling">Vélo</option></select>
+            </div>
+            <div class="form__row">
+              <label for="workout-date">Date de la séance</label>
+              <input id="workout-date" name="date" type="date" required />
+            </div>
+            <div class="form__row">
+              <label for="workout-distance">Distance <span>(km)</span></label>
+              <input id="workout-distance" name="distance" type="text" inputmode="decimal" placeholder="Ex. : 5,5" required aria-describedby="distance-error" />
+              <span class="field-error" id="distance-error"></span>
+            </div>
+            <div class="form__row">
+              <label for="workout-duration">Durée <span>(min)</span></label>
+              <input id="workout-duration" name="duration" type="text" inputmode="decimal" placeholder="Ex. : 30" required aria-describedby="duration-error" />
+              <span class="field-error" id="duration-error"></span>
+            </div>
+            <div class="form__row" id="cadence-row">
+              <label for="workout-cadence">Cadence <span>(pas/min)</span></label>
+              <input id="workout-cadence" name="cadence" type="text" inputmode="decimal" placeholder="Ex. : 170" aria-describedby="cadence-error" />
+              <span class="field-error" id="cadence-error"></span>
+            </div>
+            <div class="form__row" id="elevation-row" hidden>
+              <label for="workout-elevation">Dénivelé <span>(m)</span></label>
+              <input id="workout-elevation" name="elevation" type="text" inputmode="decimal" placeholder="Ex. : 120" aria-describedby="elevation-error" />
+              <span class="field-error" id="elevation-error"></span>
+            </div>
+          </div>
+          <p id="form-error" class="field-error" role="alert"></p>
+          <button class="button button--primary form__btn" type="submit" id="save-workout">Enregistrer la séance</button>
         </form>
 
-        <!-- <li class="workout workout--running" data-id="1234567890">
-          <h2 class="workout__title">Running on April 14</h2>
-          <div class="workout__details">
-            <span class="workout__icon">🏃‍♂️</span>
-            <span class="workout__value">5.2</span>
-            <span class="workout__unit">km</span>
+        <section id="journal" class="journal" aria-labelledby="sessions-title" tabindex="-1">
+          <div class="section-heading">
+            <h2 id="sessions-title">Mes séances</h2>
+            <span class="muted" id="session-count">0 séance</span>
           </div>
-          <div class="workout__details">
-            <span class="workout__icon">⏱</span>
-            <span class="workout__value">24</span>
-            <span class="workout__unit">min</span>
+          <div class="filters">
+            <div><label for="filter-type">Sport</label><select id="filter-type"><option value="all">Tous les sports</option><option value="running">Course à pied</option><option value="cycling">Vélo</option></select></div>
+            <div><label for="filter-period">Période</label><select id="filter-period"><option value="all">Toutes les dates</option><option value="week">Cette semaine</option><option value="month">Ce mois-ci</option></select></div>
+            <div><label for="sort-workouts">Trier par</label><select id="sort-workouts"><option value="recent">Plus récentes</option><option value="oldest">Plus anciennes</option><option value="distance">Distance</option></select></div>
           </div>
-          <div class="workout__details">
-            <span class="workout__icon">⚡️</span>
-            <span class="workout__value">4.6</span>
-            <span class="workout__unit">min/km</span>
+          <ul class="workouts" aria-label="Liste des séances"></ul>
+          <div class="empty-state" id="empty-state">
+            <h3 id="empty-title">Votre journal commence ici.</h3>
+            <p id="empty-description">Ajoutez une séance, puis choisissez son emplacement sur la carte.</p>
+            <button type="button" class="text-button" id="reset-filters" hidden>Effacer les filtres</button>
           </div>
-          <div class="workout__details">
-            <span class="workout__icon">🦶🏼</span>
-            <span class="workout__value">178</span>
-            <span class="workout__unit">spm</span>
-          </div>
-        </li>
+        </section>
+        <footer class="copyright">
+          <p>Les séances sont conservées dans ce navigateur. Exportez-les pour les sauvegarder.</p>
+          <details><summary>Crédits et utilisation</summary>
+            <p>Base Mapty © <a href="https://twitter.com/jonasschmedtman" target="_blank" rel="noopener noreferrer">Jonas Schmedtmann</a>. Adaptation pour un journal personnel.</p>
+            <p>Usage pour l’apprentissage ou le portfolio. Ne pas utiliser pour enseigner ni se présenter comme l’auteur du projet d’origine.</p>
+          </details>
+          <!-- Original notice retained: © Copyright by Jonas Schmedtmann.
+          Use for learning or your portfolio. Don't use to teach. Don't claim as your own. -->
+        </footer>
+      </section>
 
-        <li class="workout workout--cycling" data-id="1234567891">
-          <h2 class="workout__title">Cycling on April 5</h2>
-          <div class="workout__details">
-            <span class="workout__icon">🚴‍♀️</span>
-            <span class="workout__value">27</span>
-            <span class="workout__unit">km</span>
+      <section class="map-panel" aria-labelledby="map-title">
+        <header class="map-toolbar">
+          <div><h2 id="map-title">Ma carte</h2><p class="muted">Cliquez sur un lieu pour ajouter une séance.</p></div>
+          <div class="map-actions"><button type="button" class="button button--surface" id="locate-me">Me localiser</button><button type="button" class="button button--surface" id="use-map-center">Ajouter ici</button></div>
+        </header>
+        <div class="map-stage">
+          <div id="map" role="region" aria-label="Carte des séances" tabindex="0"></div>
+          <div class="map-status" id="map-status" role="status" aria-live="polite">
+            <span id="map-status-text">Chargement du fond de carte…</span>
+            <button type="button" class="text-button" id="retry-map" hidden>Réessayer</button>
           </div>
-          <div class="workout__details">
-            <span class="workout__icon">⏱</span>
-            <span class="workout__value">95</span>
-            <span class="workout__unit">min</span>
-          </div>
-          <div class="workout__details">
-            <span class="workout__icon">⚡️</span>
-            <span class="workout__value">16</span>
-            <span class="workout__unit">km/h</span>
-          </div>
-          <div class="workout__details">
-            <span class="workout__icon">⛰</span>
-            <span class="workout__value">223</span>
-            <span class="workout__unit">m</span>
-          </div>
-        </li> -->
-      </ul>
-
-      <p class="copyright">
-        &copy; Copyright by
-        <a
-          class="twitter-link"
-          target="_blank"
-          href="https://twitter.com/jonasschmedtman"
-          >Jonas Schmedtmann</a
-        >. Use for learning or your portfolio. Don't use to teach. Don't claim
-        as your own.
-      </p>
-    </div>
-
-    <div id="map"></div>
+        </div>
+        <p class="map-caption" id="map-caption">La localisation est facultative. La carte s’ouvre sur Abidjan.</p>
+      </section>
+    </main>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+      <form method="dialog">
+        <h2 id="confirm-title">Supprimer cette séance ?</h2>
+        <p id="confirm-description"></p>
+        <div class="dialog-actions"><button class="button button--surface" value="cancel" autofocus>Annuler</button><button class="button button--danger" value="confirm" id="confirm-action">Supprimer</button></div>
+      </form>
+    </dialog>
+    <noscript><p class="noscript">Activez JavaScript pour utiliser le journal et la carte.</p></noscript>
   </body>
 </html>
