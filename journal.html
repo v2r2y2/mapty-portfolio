@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="description" content="Un journal de course à pied et de vélo, avec vos séances et leurs itinéraires." />
+    <link rel="icon" href="./icon.png" />
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="style.css?v=accueil-1" />
+    <script defer src="vendor/leaflet/leaflet.js"></script>
+    <script type="module" src="script.js?v=carte-4"></script>
+    <title>Mapty · Journal sportif</title>
+  </head>
+  <body data-view="journal">
+    <a class="skip-link" href="#main">Aller au contenu</a>
+    <header class="app-header">
+      <a class="brand" href="#journal" data-view="journal" aria-label="Mapty, ouvrir le journal"><img src="icon.png" width="27" height="27" alt="" />mapty</a>
+      <h1 class="sr-only">Mapty, mon journal sportif</h1>
+      <nav class="desktop-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="#journal" data-view="journal" aria-current="page">Journal</a><a href="#map-view" data-view="map">Carte</a></nav>
+      <details class="tools" id="tools-menu">
+        <summary aria-label="Sauvegardes et informations">Options</summary>
+        <div class="tools-panel">
+          <a class="menu-home" href="index.html">Retour à l’accueil</a>
+          <button type="button" id="export-workouts">Exporter mes séances</button>
+          <button type="button" id="import-workouts">Importer une sauvegarde</button>
+          <p>Vos séances restent dans ce navigateur.</p>
+          <details class="credits"><summary>Crédits et services</summary>
+            <p>Base Mapty © <a href="https://twitter.com/jonasschmedtman" target="_blank" rel="noopener noreferrer">Jonas Schmedtmann</a>. Adaptation personnelle.</p>
+            <p>Pour apprendre ou présenter un portfolio. Ne pas utiliser pour enseigner ni se présenter comme auteur du projet initial.</p>
+            <p>Carte OpenStreetMap. Itinéraires <a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener noreferrer">FOSSGIS / OSRM</a>.</p>
+          </details>
+        </div>
+      </details>
+      <input type="file" id="import-file" accept="application/json,.json" hidden />
+    </header>
+
+    <main class="workspace" id="main">
+      <section class="journal-panel" aria-label="Journal sportif">
+        <div id="journal" class="screen journal-screen">
+          <div class="screen-heading"><h2>Journal</h2><button type="button" class="button primary" id="new-workout">Ajouter une séance</button></div>
+          <section class="week-summary" aria-labelledby="week-title">
+            <div class="summary-heading"><h3 id="week-title">Cette semaine</h3><span id="week-range"></span></div>
+            <dl><div><dt>Distance</dt><dd><span id="summary-distance">0</span><small>km</small></dd></div><div><dt>Temps d’activité</dt><dd><span id="summary-duration">0</span><small>min</small></dd></div><div><dt>Séances</dt><dd id="summary-count">0</dd></div></dl>
+          </section>
+          <div class="list-heading"><h3>Mes séances</h3><button type="button" class="text-button" id="toggle-filters" aria-expanded="false" aria-controls="filters" hidden>Filtrer</button></div>
+          <div class="filters" id="filters" hidden>
+            <div><label for="filter-type">Sport</label><select id="filter-type"><option value="all">Tous les sports</option><option value="running">Course à pied</option><option value="cycling">Vélo</option></select></div>
+            <div><label for="filter-period">Période</label><select id="filter-period"><option value="all">Toutes les dates</option><option value="week">Cette semaine</option><option value="month">Ce mois-ci</option></select></div>
+            <div><label for="sort-workouts">Ordre</label><select id="sort-workouts"><option value="recent">Plus récentes</option><option value="oldest">Plus anciennes</option><option value="distance">Distance</option></select></div>
+            <button type="button" class="text-button" id="reset-filters">Réinitialiser les filtres</button>
+          </div>
+          <ul class="workouts" aria-label="Mes séances"></ul>
+          <div class="empty-state" id="empty-state">
+            <div class="empty-route" aria-hidden="true"><span>A</span><i></i><span>B</span></div>
+            <h3>Une sortie, puis une autre.</h3>
+            <p>Ajoutez votre première séance. Retrouvez ici vos distances, vos temps et vos trajets.</p>
+            <button type="button" class="button secondary" id="empty-add">Ajouter ma première séance</button>
+          </div>
+          <p id="filter-empty" class="muted" hidden>Aucune séance pour ces filtres.</p>
+          <p class="journal-footnote">Votre carnet, sur cet appareil. Pensez à exporter vos séances.</p>
+        </div>
+
+        <form class="screen editor-screen" id="workout-form" novalidate aria-labelledby="form-title" hidden>
+          <header class="editor-heading"><button type="button" class="back-button" id="cancel-workout">Annuler</button><h2 id="form-title" tabindex="-1">Nouvelle séance</h2></header>
+          <div class="form-body">
+            <fieldset class="sport-picker"><legend>Sport</legend><label><input type="radio" name="sport" value="running" checked /><span>Course à pied</span></label><label><input type="radio" name="sport" value="cycling" /><span>Vélo</span></label></fieldset>
+            <div class="field"><label for="workout-title">Nom <span>facultatif</span></label><input id="workout-title" maxlength="80" placeholder="Ex. : Course du matin" autocomplete="off" /></div>
+            <div class="field"><label for="workout-date">Date</label><input id="workout-date" type="date" required /></div>
+            <section class="route-field" aria-labelledby="route-field-title"><div class="section-line"><h3 id="route-field-title">Trajet</h3><span class="muted">facultatif</span></div>
+              <button type="button" id="edit-route" class="route-preview"><span class="route-preview-visual" id="route-preview-visual" aria-hidden="true"><span class="route-letter">A</span><span class="route-preview-line"></span><span class="route-letter">B</span></span><span class="route-preview-copy"><strong id="route-preview-title">Définir un départ et une arrivée</strong><span id="route-preview-description">Tracer un itinéraire sur la carte</span></span><svg class="route-preview-chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6" /></svg></button>
+              <button type="button" class="text-button" id="remove-route" hidden>Retirer le trajet</button>
+            </section>
+            <div class="field-pair"><div class="field"><label for="workout-distance">Distance <span>km</span></label><input id="workout-distance" inputmode="decimal" placeholder="5,5" required aria-describedby="distance-error" /><span class="field-error" id="distance-error"></span></div><div class="field"><label for="workout-duration">Durée <span>min</span></label><input id="workout-duration" inputmode="decimal" placeholder="30" required aria-describedby="duration-error" /><span class="field-error" id="duration-error"></span></div></div>
+            <details class="extra-fields" id="extra-fields"><summary>Détails de la séance <span>facultatifs</span></summary><div class="field" id="cadence-row"><label for="workout-cadence">Cadence <span>pas/min</span></label><input id="workout-cadence" inputmode="decimal" placeholder="170" aria-describedby="cadence-error" /><span class="field-error" id="cadence-error"></span></div><div class="field" id="elevation-row" hidden><label for="workout-elevation">Dénivelé <span>m</span></label><input id="workout-elevation" inputmode="decimal" placeholder="120" aria-describedby="elevation-error" /><span class="field-error" id="elevation-error"></span></div></details>
+            <p id="form-error" class="field-error" role="alert"></p>
+          </div>
+          <footer class="form-footer"><button type="submit" class="button primary" id="save-workout">Enregistrer la séance</button></footer>
+        </form>
+
+        <section class="screen detail-screen" id="activity-detail" aria-labelledby="detail-title" hidden><button type="button" class="back-button" id="detail-back">Retour au journal</button><div id="detail-content"></div><div class="detail-actions"><button type="button" class="button secondary" id="edit-selected">Modifier la séance</button><button type="button" class="text-button danger-text" id="delete-selected">Supprimer la séance</button></div></section>
+        <section class="screen map-intro" id="map-intro"><h2>Vos trajets</h2><p class="muted">Une carte pour retrouver vos sorties et préparer leur itinéraire.</p><div class="point-guide"><span>A</span><div><strong>Le point de départ</strong><p>Choisissez où commence votre sortie.</p></div></div><div class="point-guide"><span>B</span><div><strong>Le point d’arrivée</strong><p>Reliez les deux points par les rues et chemins.</p></div></div><button type="button" class="button primary" id="start-from-map">Ajouter une séance avec un trajet</button><p class="service-note">Calcul à pied ou à vélo par FOSSGIS / OSRM, sans clé API.</p></section>
+      </section>
+
+      <section class="map-panel" id="map-view" aria-label="Carte des itinéraires">
+        <div id="map" role="region" aria-label="Carte. Utilisez les flèches pour déplacer la vue." tabindex="0"></div>
+        <div class="map-topbar"><p id="map-heading">Les lieux de vos séances</p><button type="button" class="button map-button" id="locate-me">Me localiser</button></div>
+        <div class="map-feedback"><div class="map-status" id="map-status" role="status"><span id="map-status-text">Chargement de la carte…</span><div class="map-recovery"><button type="button" class="text-button" id="retry-map" hidden>Réessayer</button><button type="button" class="text-button" id="switch-map" hidden>Changer de fond</button></div></div><p class="location-status" id="location-status" role="status" hidden></p></div>
+        <div class="map-selection" id="map-selection" hidden><span id="map-selection-title"></span><button type="button" class="text-button" id="selected-map-back">Voir la séance</button></div>
+        <section class="route-builder" id="route-builder" aria-label="Choisir un trajet" hidden>
+          <div class="builder-heading"><button type="button" class="back-button" id="cancel-route">Retour à la séance</button><label class="sr-only" for="route-sport">Sport du trajet</label><select id="route-sport"><option value="running">Course à pied</option><option value="cycling">Vélo</option></select></div>
+          <div class="waypoints"><button type="button" id="choose-start" aria-pressed="true"><span class="point-tag">A</span><span><small>Départ</small><strong id="start-label">Toucher la carte</strong></span></button><button type="button" id="reverse-route" class="reverse-button" aria-label="Intervertir le départ et l’arrivée" disabled><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 19V5m-4 4 4-4 4 4M17 5v14m-4-4 4 4 4-4" /></svg></button><button type="button" id="choose-end" aria-pressed="false"><span class="point-tag point-tag--end">B</span><span><small>Arrivée</small><strong id="end-label">À choisir ensuite</strong></span></button></div>
+          <div class="point-tools"><button type="button" class="text-button" id="use-map-center">Placer au centre de la carte</button><button type="button" class="text-button" id="reset-route">Effacer les points</button></div>
+          <p id="route-message" role="status" aria-live="polite">Choisissez le point de départ A.</p>
+          <div class="route-actions"><button type="button" class="button primary" id="calculate-route" disabled>Calculer le trajet</button><button type="button" class="button primary" id="accept-route" hidden>Utiliser ce trajet</button></div>
+          <p class="routing-privacy">Le calcul envoie uniquement les deux points à <a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener noreferrer">FOSSGIS / OSRM</a>.</p>
+        </section>
+      </section>
+      <p id="status" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+      <section id="storage-warning" class="storage-warning" role="alert" hidden><p id="storage-warning-text"></p><button type="button" class="text-button" id="download-recovery" hidden>Récupérer l’historique brut</button><button type="button" class="text-button" id="reset-storage" hidden>Réinitialiser après sauvegarde</button></section>
+    </main>
+    <nav class="mobile-nav" aria-label="Navigation principale"><a href="#journal" data-view="journal" aria-current="page">Journal</a><a href="#map-view" data-view="map">Carte</a><button type="button" id="mobile-add">Ajouter</button></nav>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description"><form method="dialog"><h2 id="confirm-title">Confirmer</h2><p id="confirm-description"></p><div class="dialog-actions"><button class="button secondary" value="cancel" autofocus>Annuler</button><button class="button primary" value="confirm" id="confirm-action">Confirmer</button></div></form></dialog>
+    <noscript><p class="noscript">Activez JavaScript pour utiliser le journal et les itinéraires.</p></noscript>
+    <!-- Mapty © Jonas Schmedtmann. Use for learning or your portfolio.
+    Don't use to teach. Don't claim as your own. Original notice preserved. -->
+  </body>
+</html>

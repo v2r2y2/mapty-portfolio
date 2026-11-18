@@ -13,7 +13,13 @@ de Jonas Schmedtmann. Périmètre demandé dans le chat le 18 novembre 2026.
 - Écrans mobiles dédiés, compositions tablette et bureau distinctes, police système.
 - Accès clavier, erreurs et chargements explicites, localisation facultative.
 - Stockage local, import/export compatible avec les anciens historiques.
-- Crédits et conditions préservés, cours original intact, aucun push ou hébergement.
+- Crédits et conditions préservés, cours original intact, publication GitHub Pages autorisée par le propriétaire.
+
+Extension validée : accueil complet avec aperçu réel, explication A/B, carnet,
+sauvegarde et liens de crédits. L’accès sans compte ouvre `journal.html`, sur la
+même origine et avec le même stockage qu’avant. L’accueil est `index.html`.
+Connexion visuelle avec animation A/B, comptes explicitement non activés et
+champs désactivés ; aucune authentification ou synchronisation simulée.
 
 Hors périmètre : comptes, synchronisation, réseau social, suivi GPS en direct,
 guidage, recherche d’adresses, points intermédiaires, cartes hors ligne.

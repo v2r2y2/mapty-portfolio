@@ -1,0 +1,296 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "home": {
+        "image": "carnet-mobile.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": false,
+        "bottomNav": true,
+        "column": 320
+      },
+      "editor": {
+        "visible": true,
+        "map": false,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 390,
+      "home": {
+        "image": "carnet-mobile.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": false,
+        "bottomNav": true,
+        "column": 390
+      },
+      "editor": {
+        "visible": true,
+        "map": false,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 649,
+      "home": {
+        "image": "carnet-mobile.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": false,
+        "bottomNav": true,
+        "column": 649
+      },
+      "editor": {
+        "visible": true,
+        "map": false,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 650,
+      "home": {
+        "image": "carnet-tablette.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": false,
+        "bottomNav": true,
+        "column": 650
+      },
+      "editor": {
+        "visible": true,
+        "map": false,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 768,
+      "home": {
+        "image": "carnet-tablette.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": false,
+        "bottomNav": true,
+        "column": 768
+      },
+      "editor": {
+        "visible": true,
+        "map": false,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1049,
+      "home": {
+        "image": "carnet-tablette.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": false,
+        "bottomNav": true,
+        "column": 1049
+      },
+      "editor": {
+        "visible": true,
+        "map": false,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1050,
+      "home": {
+        "image": "carnet-tablette.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": true,
+        "bottomNav": false,
+        "column": 410
+      },
+      "editor": {
+        "visible": true,
+        "map": true,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1059,
+      "home": {
+        "image": "carnet-tablette.png",
+        "columns": "none",
+        "textFirst": true
+      },
+      "login": {
+        "story": false,
+        "disabled": true
+      },
+      "journal": {
+        "map": true,
+        "bottomNav": false,
+        "column": 410
+      },
+      "editor": {
+        "visible": true,
+        "map": true,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1060,
+      "home": {
+        "image": "carnet-apercu.png?v=trajet-1",
+        "columns": "340px 569px",
+        "textFirst": true
+      },
+      "login": {
+        "story": true,
+        "disabled": true
+      },
+      "journal": {
+        "map": true,
+        "bottomNav": false,
+        "column": 410
+      },
+      "editor": {
+        "visible": true,
+        "map": true,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1280,
+      "home": {
+        "image": "carnet-apercu.png?v=trajet-1",
+        "columns": "340px 764px",
+        "textFirst": true
+      },
+      "login": {
+        "story": true,
+        "disabled": true
+      },
+      "journal": {
+        "map": true,
+        "bottomNav": false,
+        "column": 410
+      },
+      "editor": {
+        "visible": true,
+        "map": true,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1450,
+      "home": {
+        "image": "carnet-apercu.png?v=trajet-1",
+        "columns": "340px 764px",
+        "textFirst": true
+      },
+      "login": {
+        "story": true,
+        "disabled": true
+      },
+      "journal": {
+        "map": true,
+        "bottomNav": false,
+        "column": 450
+      },
+      "editor": {
+        "visible": true,
+        "map": true,
+        "bottomNav": false
+      },
+      "route": {
+        "visible": true,
+        "overflow": false
+      }
+    }
+  ],
+  "pagesPerWidth": 4,
+  "appErrors": [],
+  "physicalDevices": false,
+  "testedAt": "2026-11-18",
+  "browser": "Chromium, viewport redimensionné",
+  "note": "Tuiles simulées pour les tests géométriques ; aucune position réelle utilisée."
+}

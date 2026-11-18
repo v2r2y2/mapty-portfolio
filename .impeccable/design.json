@@ -1,19 +1,25 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T13:03:41+00:00",
+  "generatedAt": "2026-11-18T20:37:15.206968+00:00",
   "title": "Design System: Mapty · Carnet de sorties",
   "extensions": {
     "provenance": {
       "method": "direct-source-reading",
       "sources": [
         "index.html",
+        "connexion.html",
+        "journal.html",
+        "credits.html",
         "style.css",
-        "script.js"
+        "accueil.css",
+        "script.js",
+        "connexion.js",
+        "assets/README.md"
       ],
       "automaticExtractorRun": false,
       "note": "Moteur Impeccable indisponible ; aucune exécution automatique ni nouvel audit visuel."
     },
-    "mode": "Operate",
+    "mode": "Surface-dependent: Persuade / Operate",
     "dials": {
       "energy": 1,
       "rhythm": 2,
@@ -105,6 +111,11 @@
       {
         "name": "reduced",
         "value": "Transitions CSS supprimées ; zoomAnimation et fadeAnimation Leaflet désactivées."
+      },
+      {
+        "name": "connexion-ab-once",
+        "value": "2700ms total; A 420ms ease-out; path 2100ms + 180ms delay cubic-bezier(.22,1,.36,1); B 420ms + 2280ms delay ease-out",
+        "purpose": "Une seule lecture par chargement dès 1060px, sans boucle. hasPlayed bloque les relances ; visibilité/préférence/largeur annulent les animations en cours. Statique avec prefers-reduced-motion."
       }
     ],
     "breakpoints": [
@@ -127,8 +138,72 @@
         "name": "wide",
         "value": "1450px",
         "query": "(min-width: 1450px)"
+      },
+      {
+        "name": "presentation-tablet",
+        "value": "650px",
+        "query": "(min-width: 650px)",
+        "scope": "accueil.css"
+      },
+      {
+        "name": "presentation-desktop",
+        "value": "1060px",
+        "query": "(min-width: 1060px)",
+        "scope": "accueil.css ; colonne A/B de connexion"
       }
-    ]
+    ],
+    "surfaceModes": {
+      "index.html": {
+        "mode": "Persuade",
+        "purpose": "Présentation et action sobres validées",
+        "energy": 1,
+        "rhythm": 2,
+        "motion": 1
+      },
+      "connexion.html": {
+        "mode": "Operate",
+        "energy": 1,
+        "rhythm": 2,
+        "motion": 2,
+        "motionScope": "Diagramme A/B seulement ; reste statique avec mouvement réduit"
+      },
+      "journal.html": {
+        "mode": "Operate",
+        "energy": 1,
+        "rhythm": 2,
+        "motion": 1
+      }
+    },
+    "routes": {
+      "index.html": "Accueil de présentation ; action vers journal.html et lien vers connexion.html",
+      "connexion.html": "Comptes non activés ; formulaire désactivé et entrée sans compte vers journal.html",
+      "journal.html": "Carnet existant, script.js et stockage conservés ; Options > Accueil vers index.html",
+      "credits.html": "Crédits et attributions"
+    },
+    "assets": {
+      "provenance": "assets/README.md",
+      "kind": "Captures réelles de séances de démonstration à Abidjan, 18 novembre 2026",
+      "files": [
+        "assets/carnet-apercu.png",
+        "assets/trajet-exemple.png",
+        "assets/seance-exemple.png",
+        "assets/carnet-mobile.png",
+        "assets/carnet-tablette.png"
+      ],
+      "rule": "Légendes explicites, attributions conservées, aucune donnée injectée dans le carnet des visiteurs. picture/source sélectionne le vrai journal mobile sous650px, tablette de650à1059px, bureau dès1060px."
+    },
+    "typographyMeta": {
+      "display-home": {
+        "displayName": "Titre de présentation",
+        "purpose": "2.5rem, 3.5rem dès 650px, 3.75rem dès 1060px ; aucun changement de police."
+      },
+      "body-home": {
+        "displayName": "Texte de présentation",
+        "purpose": "Interligne 1.5 sur accueil, connexion et crédits ; carnet conservé à 1.45."
+      }
+    },
+    "responsiveContract": "docs/RESPONSIVE.md",
+    "responsiveBoundaryNote": "1050px répond au journal+carte ; 1060px au hero 340px+image fluide et à la colonne narrative de connexion. Entre 1050 et 1059px, carnet bureau et présentation compacte."
   },
   "components": [
     {
@@ -183,11 +258,26 @@
       "kind": "custom",
       "html": "<div class=\"ds-component\"><div class=\"ds-workout\"><button type=\"button\" class=\"ds-workout-button\"><span><span class=\"ds-workout-name\">Nom de la séance</span><span class=\"ds-workout-date\">Date de la séance</span></span></button></div></div>",
       "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}.ds-workout{border-bottom: 1px solid var(--line);}.ds-workout-button{display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 9px 14px; width: 100%; text-align: left; padding: 20px 0; background: none; border: 0;}.ds-workout-button:hover{background: #f5f8f3;}.ds-workout-name{display: block; font-weight: 600; font-size: 1.05rem; overflow-wrap: anywhere;}.ds-workout-date{display: block; font-size: .8125rem; color: var(--muted); margin-top: 5px;}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}"
+    },
+    {
+      "name": "Navigation de présentation",
+      "kind": "nav",
+      "description": "Marque existante et lien Se connecter dans l’en-tête d’accueil.",
+      "html": "<nav class=\"ds-site-nav\" aria-label=\"Navigation principale\"><a class=\"ds-brand\" href=\"index.html\">mapty</a><a class=\"ds-login-link\" href=\"connexion.html\">Se connecter</a></nav>",
+      "css": ".ds-site-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:76px;padding:12px 24px;border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Arial,sans-serif}.ds-site-nav a{display:flex;align-items:center;min-height:44px;text-decoration:none}.ds-brand{font-size:1.5rem;font-weight:650;letter-spacing:-.04em;color:var(--ink)}.ds-login-link{font-size:.875rem;font-weight:550;color:var(--accent)}.ds-login-link:hover{text-decoration:underline}.ds-site-nav a:focus-visible{outline:3px solid var(--focus);outline-offset:4px}"
+    },
+    {
+      "name": "Compte indisponible",
+      "kind": "custom",
+      "refersTo": "account-notice",
+      "description": "Notice explicite, vrais champs désactivés et lien utilisable vers le carnet.",
+      "html": "<section class=\"ds-account\"><p class=\"ds-notice\" id=\"ds-account-notice\">Les comptes ne sont pas encore activés. Vous pouvez utiliser le carnet sans compte.</p><form aria-describedby=\"ds-account-notice\"><label for=\"ds-email\">Adresse e-mail</label><input id=\"ds-email\" type=\"email\" placeholder=\"vous@exemple.fr\" disabled><button type=\"submit\" disabled>Connexion bientôt disponible</button></form><a href=\"journal.html\">Essayer sans compte</a></section>",
+      "css": ".ds-account{max-width:400px;font-family:-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Arial,sans-serif;line-height:1.5;color:var(--ink)}.ds-notice{padding:16px;border-radius:8px;background:var(--paper);color:var(--muted);font-size:.875rem}.ds-account label{display:block;margin:28px 0 8px;font-size:.875rem;font-weight:550}.ds-account input{box-sizing:border-box;width:100%;min-height:48px;padding:12px;border:1px solid #aeb7af;border-radius:7px;font-size:1rem;background:var(--paper);color:var(--muted)}.ds-account input::placeholder{color:var(--muted);opacity:1}.ds-account button,.ds-account a{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;min-height:48px;margin-top:20px;padding:11px 20px;border-radius:7px;font-size:.9375rem;font-weight:600}.ds-account button{border:1px solid #aeb7af;background:#e8eee7;color:var(--muted);cursor:not-allowed}.ds-account a{background:var(--accent);color:white;text-decoration:none}.ds-account a:hover{background:#194833}.ds-account a:focus-visible{outline:3px solid var(--focus);outline-offset:4px}.ds-account a:active{transform:translateY(1px)}@media(prefers-reduced-motion:reduce){.ds-account a:active{transform:none}}"
     }
   ],
   "narrative": {
     "northStar": "Un carnet de sorties et une carte qui servent une tâche à la fois.",
-    "overview": "Un carnet de sorties et une carte qui servent une tâche à la fois. L’interface claire emploie la police système, une encre sombre et un vert forêt pour les actions et les trajets. La direction anthracite/Manrope a été remplacée explicitement.\n\nMode Operate ; ENERGY 1 / RHYTHM 2 / MOTION 1. Les variations de composition répondent aux tâches et aux dimensions disponibles. Le contenu réel, la carte utilitaire et les lignes du journal portent l’identité ; le mouvement reste un retour d’action.",
+    "overview": "Un carnet de sorties et une carte qui servent une tâche à la fois. L’interface claire emploie la police système, une encre sombre et un vert forêt pour les actions et les trajets. La direction anthracite/Manrope a été remplacée explicitement.\n\nL’extension d’accueil conserve ce système : présentation et action dans un mode Persuade sobre validé ; connexion et carnet en mode Operate. ENERGY 1 / RHYTHM 2 sur ces surfaces, MOTION 1 pour l’accueil et le carnet, MOTION 2 uniquement pour le diagramme A/B de connexion. Les variations de composition répondent aux tâches et aux dimensions disponibles. Le contenu réel, la carte utilitaire et les lignes du journal portent l’identité ; le mouvement reste un retour d’action ou une explication ponctuelle.",
     "keyCharacteristics": [
       "Palette claire et un accent vert de fonction.",
       "Police système, métriques à chiffres tabulaires.",
@@ -199,13 +289,17 @@
       "Do partir du contenu réel.",
       "Do garder A/B et le sport explicites.",
       "Do conserver erreurs, commandes de zoom et attributions visibles.",
-      "Do employer des SVG pour le chevron et l’inversion A/B."
+      "Do employer des SVG pour le chevron et l’inversion A/B.",
+      "Do légender les captures de démonstration et conserver leur provenance.",
+      "Do rendre explicite l’indisponibilité des comptes et maintenir l’entrée sans compte."
     ],
     "donts": [
       "Don’t compresser le bureau sur téléphone.",
       "Don’t inventer un trajet en cas d’échec.",
       "Don’t présenter le parcours planifié comme du GPS enregistré.",
-      "Don’t réintroduire la direction anthracite/Manrope."
+      "Don’t réintroduire la direction anthracite/Manrope.",
+      "Don’t transformer l’animation explicative de connexion en boucle ou en mouvement d’ambiance.",
+      "Don’t promettre de compte activé ou de synchronisation automatique."
     ]
   }
 }

@@ -103,3 +103,32 @@ unique vérifiées. Zéro exception applicative dans ce parcours.
 
 La localisation réelle et les appareils physiques restent à valider par le
 propriétaire ; les captures de position sont des démonstrations de test.
+
+## Accueil complet intégré
+
+Accueil, connexion et crédits contrôlés à 320, 390, 650, 768, 1050 et 1440 px :
+18 cas sans débordement. Captures bureau/mobile observées. L’accueil ne charge
+aucune ressource externe et ne demande pas la position. Ses images sont des
+captures locales, avec exemples signalés ; elles ne peuplent pas le journal.
+
+Les quinze tests natifs passent. Un ancien historique au format tableau a été
+posé dans un profil de test avant l’ouverture du carnet : il reste accessible
+depuis `journal.html`, puis après création/rechargement/suppression d’une autre
+séance et retour à l’accueil. Même origine, même clé `workouts`, pas de migration
+ou effacement. Retour accueil disponible dans Options et la navigation bureau.
+
+Parcours de connexion vers le carnet, page de crédits et aide à l’export testés.
+Champs de connexion désactivés, indisponibilité annoncée avant les champs ;
+aucun compte réel, aucune collecte d’identifiants. Le point bleu du carnet reste
+fonctionnel avec géolocalisation simulée. Zéro exception applicative dans le
+parcours de contrôle. Animation de 2,7 s, arrêt puis respect du mouvement réduit.
+Un retour d’onglet ne doit pas relancer la séquence déjà jouée.
+
+Règles consignées dans `docs/RESPONSIVE.md`, preuves dans
+`docs/verification-responsive.json`. Onze largeurs : 320,390,649,650,768,1049,
+1050,1059,1060,1280,1450 px. Quatre pages à chaque largeur, puis états journal,
+ajout, détail, carte et choix A/B. Aucun débordement ni exception applicative.
+Le hero sélectionne le vrai journal mobile sous650, le vrai journal tablette
+de650à1059 et l’aperçu bureau dès1060, sans réduire tout le bureau sur téléphone.
+Les captures finales ont été prises après chargement des images différées.
+Zoom navigateur et agrandissement du texte restent explicitement à vérifier.

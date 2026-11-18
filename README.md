@@ -15,10 +15,16 @@ retrouver ses trajets sur une carte et suivre son activité au fil des semaines.
 - Exporter son carnet et le récupérer sur un autre navigateur.
 
 L’interface est en français et s’adapte au téléphone, à la tablette et à l’ordinateur.
+Les [règles d’adaptation aux écrans](docs/RESPONSIVE.md) expliquent les différentes
+compositions et les vérifications effectuées.
 
 ## Ajouter une sortie
 
-1. Cliquer sur **Ajouter une séance**, puis renseigner le sport, la date,
+Depuis l’accueil, **Essayer sans compte** ouvre le carnet. La page de connexion
+présente les comptes à venir ; ils ne sont pas encore activés et aucune adresse
+ou mot de passe n’y est demandé pour utiliser l’application.
+
+1. Dans le carnet, cliquer sur **Ajouter une séance**, puis renseigner le sport, la date,
    la distance et la durée. Le nom et les détails supplémentaires sont facultatifs.
 2. Pour ajouter un trajet, choisir les points **A** et **B** sur la carte,
    lancer le calcul, puis cliquer sur **Utiliser ce trajet**.
