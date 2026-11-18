@@ -52,8 +52,7 @@ class App {
       if (form.hidden) return this._showForm(coords);
       this.#coords = coords;
       this._updateSelection();
-      document.querySelector('#form-title').focus();
-      form.scrollIntoView({ block: 'nearest' });
+      this._focusForm();
     });
     document.querySelector('#retry-map').addEventListener('click', () => {
       if (!this.#tiles) return this._loadMap();
@@ -118,8 +117,7 @@ class App {
         if (form.hidden) this._showForm(this.#coords);
         else {
           this._updateSelection();
-          document.querySelector('#form-title').focus();
-          form.scrollIntoView({ block: 'nearest' });
+          this._focusForm();
         }
       });
       this.#map.on('moveend', () => {
@@ -212,6 +210,10 @@ class App {
     document.querySelector('#new-workout').disabled = true;
     document.querySelector('#use-map-center').textContent = 'Choisir ce lieu';
     this._updateSelection();
+    this._focusForm();
+  }
+
+  _focusForm() {
     document.querySelector('#form-title').focus();
     form.scrollIntoView({ block: 'nearest' });
   }
