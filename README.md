@@ -132,4 +132,14 @@ personnelle en distinguant ses propres contributions.
 - Carte : contributeurs OpenStreetMap ; fond standard OpenStreetMap, secours OpenStreetMap France.
 - Itinéraires : FOSSGIS / OSRM, données OpenStreetMap.
 
-Le dépôt reste local. Aucun push, dépôt GitHub ou hébergement.
+## Publication GitHub Pages
+
+- Dépôt : <https://github.com/v2r2y2/mapty-portfolio>
+- Site : <https://v2r2y2.github.io/mapty-portfolio/>
+- Source de publication : branche `main`, dossier racine, fichiers statiques
+  servis directement grâce à `.nojekyll`. Aucun framework ni compilation.
+
+Après une modification validée, un push de `main` déclenche une nouvelle
+publication GitHub Pages. Le cours original et les licences restent préservés.
+Les séances locales ne sont pas transférées automatiquement vers le site :
+exporter depuis la version locale puis importer sur le site publié si nécessaire.
