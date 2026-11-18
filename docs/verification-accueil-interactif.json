@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-18",
+  "browser": "Chromium, profil isolé",
+  "edgeCases": {
+    "matrix": [
+      {
+        "width": 320,
+        "scroll": 305,
+        "stage": 244,
+        "columns": "none",
+        "sampleColumns": "120.5px 120.5px",
+        "images": 0
+      },
+      {
+        "width": 390,
+        "scroll": 375,
+        "stage": 244,
+        "columns": "none",
+        "sampleColumns": "155.5px 155.5px",
+        "images": 0
+      },
+      {
+        "width": 649,
+        "scroll": 634,
+        "stage": 244,
+        "columns": "none",
+        "sampleColumns": "285px 285px",
+        "images": 0
+      },
+      {
+        "width": 650,
+        "scroll": 635,
+        "stage": 310,
+        "columns": "none",
+        "sampleColumns": "98.5781px 98.5781px 98.5781px",
+        "images": 0
+      },
+      {
+        "width": 768,
+        "scroll": 753,
+        "stage": 310,
+        "columns": "none",
+        "sampleColumns": "123.602px 123.609px 123.609px",
+        "images": 0
+      },
+      {
+        "width": 1049,
+        "scroll": 1034,
+        "stage": 310,
+        "columns": "none",
+        "sampleColumns": "183.211px 183.211px 183.219px",
+        "images": 0
+      },
+      {
+        "width": 1050,
+        "scroll": 1035,
+        "stage": 310,
+        "columns": "none",
+        "sampleColumns": "183.422px 183.422px 183.43px",
+        "images": 0
+      },
+      {
+        "width": 1059,
+        "scroll": 1044,
+        "stage": 310,
+        "columns": "none",
+        "sampleColumns": "185.328px 185.336px 185.328px",
+        "images": 0
+      },
+      {
+        "width": 1060,
+        "scroll": 1045,
+        "stage": 300,
+        "columns": "340px 569px",
+        "sampleColumns": "179px 179px 179px",
+        "images": 0
+      },
+      {
+        "width": 1280,
+        "scroll": 1265,
+        "stage": 300,
+        "columns": "340px 764px",
+        "sampleColumns": "244px 244px 244px",
+        "images": 0
+      },
+      {
+        "width": 1450,
+        "scroll": 1435,
+        "stage": 300,
+        "columns": "340px 764px",
+        "sampleColumns": "244px 244px 244px",
+        "images": 0
+      },
+      {
+        "width": 1672,
+        "scroll": 1657,
+        "stage": 300,
+        "columns": "340px 764px",
+        "sampleColumns": "244px 244px 244px",
+        "images": 0
+      }
+    ],
+    "textZoom": {
+      "width": 390,
+      "scroll": 375
+    },
+    "exampleErrorAndRetry": true,
+    "reducedMotion": true,
+    "mapAssetFailureAndRetry": true,
+    "tileFailureRouteVisible": true,
+    "mapResize": true,
+    "noMarkerLeak": true,
+    "saveHelp": true,
+    "keyboardFocus": true,
+    "bikeExport": true,
+    "appErrors": []
+  },
+  "realInteraction": {
+    "foot": "2,19",
+    "bike": "2,22",
+    "differentGeometry": true,
+    "sessionUpdated": true,
+    "noExternalBeforeMap": 0,
+    "download": "mapty-exemple-running.json",
+    "resting": 0,
+    "map": {
+      "svgHidden": true,
+      "loaded": 8,
+      "lines": 1,
+      "stage": 300,
+      "external": 8
+    },
+    "storageUnchanged": true,
+    "appErrors": []
+  },
+  "limitations": [
+    "Pas de téléphone physique",
+    "Pas de Safari",
+    "Texte 200 % : racine CSS, pas zoom navigateur"
+  ],
+  "expectedNetworkErrors": "Tuiles et CSS bloqués intentionnellement pour les tests de panne"
+}

@@ -1,4 +1,17 @@
-# Captures de présentation
+# Ressources de présentation
+
+## Tracés interactifs
+
+`demo-routes.json` contient deux trajets publics d’exemple à Abidjan, obtenus
+le 18 novembre 2026 auprès de FOSSGIS / OSRM : à pied, 2 194,9 m et 71 coordonnées ;
+à vélo, 2 222 m et 76 coordonnées. Ces géométries précalculées alimentent le SVG
+et la carte Leaflet ; aucun calcul distant ni géolocalisation au chargement.
+Les durées affichées (20 et 12 minutes) sont illustratives et explicitement
+signalées. Attribution : contributeurs OpenStreetMap, FOSSGIS / OSRM.
+
+## Captures conservées en archive
+
+Ces PNG ne sont plus chargés dans l’accueil interactif.
 
 Images capturées le 18 novembre 2026 dans une adaptation locale de Mapty, avec
 des séances de test à Abidjan. Aucune donnée personnelle ni position réelle du

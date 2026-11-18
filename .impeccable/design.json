@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T20:37:15.206968+00:00",
+  "generatedAt": "2026-11-18T21:19:47.308056+00:00",
   "title": "Design System: Mapty · Carnet de sorties",
   "extensions": {
     "provenance": {
@@ -14,7 +14,9 @@
         "accueil.css",
         "script.js",
         "connexion.js",
-        "assets/README.md"
+        "assets/README.md",
+        "accueil.js",
+        "assets/demo-routes.json"
       ],
       "automaticExtractorRun": false,
       "note": "Moteur Impeccable indisponible ; aucune exécution automatique ni nouvel audit visuel."
@@ -116,6 +118,11 @@
         "name": "connexion-ab-once",
         "value": "2700ms total; A 420ms ease-out; path 2100ms + 180ms delay cubic-bezier(.22,1,.36,1); B 420ms + 2280ms delay ease-out",
         "purpose": "Une seule lecture par chargement dès 1060px, sans boucle. hasPlayed bloque les relances ; visibilité/préférence/largeur annulent les animations en cours. Statique avec prefers-reduced-motion."
+      },
+      {
+        "name": "home-route-demo",
+        "value": "1800ms cubic-bezier(.22,1,.36,1)",
+        "purpose": "Une lecture à la visibilité initiale puis sur action sport, carte ou replay ; sans boucle, statique avec mouvement réduit."
       }
     ],
     "breakpoints": [
@@ -154,11 +161,11 @@
     ],
     "surfaceModes": {
       "index.html": {
-        "mode": "Persuade",
-        "purpose": "Présentation et action sobres validées",
-        "energy": 1,
+        "mode": "Operate / Persuade",
+        "purpose": "Persuasion par démonstration : sport → géométrie et distance → séance HTML",
+        "energy": 2,
         "rhythm": 2,
-        "motion": 1
+        "motion": 2
       },
       "connexion.html": {
         "mode": "Operate",
@@ -175,22 +182,35 @@
       }
     },
     "routes": {
-      "index.html": "Accueil de présentation ; action vers journal.html et lien vers connexion.html",
+      "index.html": "Accueil interactif : choix sportif, SVG précalculé, carte à la demande, séance HTML et téléchargement JSON ; entrée vers journal.html et connexion.html",
       "connexion.html": "Comptes non activés ; formulaire désactivé et entrée sans compte vers journal.html",
       "journal.html": "Carnet existant, script.js et stockage conservés ; Options > Accueil vers index.html",
       "credits.html": "Crédits et attributions"
     },
     "assets": {
-      "provenance": "assets/README.md",
-      "kind": "Captures réelles de séances de démonstration à Abidjan, 18 novembre 2026",
+      "provenance": "assets/demo-routes.json ; assets/README.md (archives des captures)",
+      "kind": "Trajets précalculés FOSSGIS / OSRM à Abidjan ; SVG et séance HTML liés au sport",
       "files": [
+        "assets/demo-routes.json"
+      ],
+      "routes": {
+        "running": {
+          "points": 71,
+          "distanceMetres": 2194.9
+        },
+        "cycling": {
+          "points": 76,
+          "distanceMetres": 2222
+        }
+      },
+      "archivedScreenshots": [
         "assets/carnet-apercu.png",
         "assets/trajet-exemple.png",
         "assets/seance-exemple.png",
         "assets/carnet-mobile.png",
         "assets/carnet-tablette.png"
       ],
-      "rule": "Légendes explicites, attributions conservées, aucune donnée injectée dans le carnet des visiteurs. picture/source sélectionne le vrai journal mobile sous650px, tablette de650à1059px, bureau dès1060px."
+      "rule": "Aucune capture dans la présentation courante. Aucun accès à la position ni écriture dans le stockage visiteur. Leaflet 1.6 local et tuiles OSM chargés après Afficher la carte. Téléchargement JSON version 2 avec une séance compatible."
     },
     "typographyMeta": {
       "display-home": {
@@ -203,7 +223,7 @@
       }
     },
     "responsiveContract": "docs/RESPONSIVE.md",
-    "responsiveBoundaryNote": "1050px répond au journal+carte ; 1060px au hero 340px+image fluide et à la colonne narrative de connexion. Entre 1050 et 1059px, carnet bureau et présentation compacte."
+    "responsiveBoundaryNote": "1050px : journal+carte ; 1060px : hero 340px+démo fluide et colonne de connexion. Accueil empilé jusqu’à 1059px ; scène 244px sous650,310px de650à1059,300px dès1060."
   },
   "components": [
     {
@@ -262,9 +282,9 @@
     {
       "name": "Navigation de présentation",
       "kind": "nav",
-      "description": "Marque existante et lien Se connecter dans l’en-tête d’accueil.",
+      "description": "Marque existante et lien Se connecter ; en-tête capable de revenir à la ligne.",
       "html": "<nav class=\"ds-site-nav\" aria-label=\"Navigation principale\"><a class=\"ds-brand\" href=\"index.html\">mapty</a><a class=\"ds-login-link\" href=\"connexion.html\">Se connecter</a></nav>",
-      "css": ".ds-site-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:76px;padding:12px 24px;border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Arial,sans-serif}.ds-site-nav a{display:flex;align-items:center;min-height:44px;text-decoration:none}.ds-brand{font-size:1.5rem;font-weight:650;letter-spacing:-.04em;color:var(--ink)}.ds-login-link{font-size:.875rem;font-weight:550;color:var(--accent)}.ds-login-link:hover{text-decoration:underline}.ds-site-nav a:focus-visible{outline:3px solid var(--focus);outline-offset:4px}"
+      "css": ".ds-site-nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;min-height:76px;padding:12px 24px;border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Arial,sans-serif}.ds-site-nav a{display:flex;align-items:center;min-height:44px;text-decoration:none}.ds-brand{font-size:1.5rem;font-weight:650;letter-spacing:-.04em;color:var(--ink)}.ds-login-link{font-size:.875rem;font-weight:550;color:var(--accent)}.ds-login-link:hover{text-decoration:underline}.ds-site-nav a:focus-visible{outline:3px solid var(--focus);outline-offset:4px}"
     },
     {
       "name": "Compte indisponible",
@@ -277,12 +297,12 @@
   ],
   "narrative": {
     "northStar": "Un carnet de sorties et une carte qui servent une tâche à la fois.",
-    "overview": "Un carnet de sorties et une carte qui servent une tâche à la fois. L’interface claire emploie la police système, une encre sombre et un vert forêt pour les actions et les trajets. La direction anthracite/Manrope a été remplacée explicitement.\n\nL’extension d’accueil conserve ce système : présentation et action dans un mode Persuade sobre validé ; connexion et carnet en mode Operate. ENERGY 1 / RHYTHM 2 sur ces surfaces, MOTION 1 pour l’accueil et le carnet, MOTION 2 uniquement pour le diagramme A/B de connexion. Les variations de composition répondent aux tâches et aux dimensions disponibles. Le contenu réel, la carte utilitaire et les lignes du journal portent l’identité ; le mouvement reste un retour d’action ou une explication ponctuelle.",
+    "overview": "Un carnet de sorties et une carte qui servent une tâche à la fois.\"**\n\nUn carnet de sorties et une carte qui servent une tâche à la fois. L’interface claire emploie la police système, une encre sombre et un vert forêt pour les actions et les trajets. La direction anthracite/Manrope a été remplacée explicitement.\n\nL’accueil associe Operate et Persuade par démonstration : changer de sport modifie le trajet, sa distance et la séance présentée. ENERGY 2 / RHYTHM 2 / MOTION 2 s’appliquent à cette surface. La connexion conserve Operate, ENERGY 1 / RHYTHM 2 / MOTION 2 pour son seul diagramme A/B ; le carnet conserve Operate, ENERGY 1 / RHYTHM 2 / MOTION 1. La géométrie et les chiffres rendent la relation entre action et résultat visible ; ils portent la persuasion sans décor supplémentaire.\n\nLa densité rassemble le choix, le trajet et sa lecture dans un panneau, puis la séance correspondante dans une section proche. L’aide de sauvegarde tient dans une bande compacte : elle accompagne la tâche sans prolonger artificiellement la page. Les captures de téléphone vides et les longues sections statiques ne servent plus de présentation.",
     "keyCharacteristics": [
       "Palette claire et un accent vert de fonction.",
       "Police système, métriques à chiffres tabulaires.",
       "Téléphone, tablette et bureau disposent de compositions distinctes.",
-      "Motif A/B et aperçus SVG issus de la géométrie enregistrée."
+      "Motif A/B et aperçu SVG issu de vrais trajets précalculés ; séance HTML liée au sport choisi."
     ],
     "rules": [],
     "dos": [
@@ -290,7 +310,7 @@
       "Do garder A/B et le sport explicites.",
       "Do conserver erreurs, commandes de zoom et attributions visibles.",
       "Do employer des SVG pour le chevron et l’inversion A/B.",
-      "Do légender les captures de démonstration et conserver leur provenance.",
+      "Do identifier les démonstrations, leurs sources et leur absence d’effet sur le carnet visiteur.",
       "Do rendre explicite l’indisponibilité des comptes et maintenir l’entrée sans compte."
     ],
     "donts": [

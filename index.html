@@ -1,31 +1,25 @@
 <!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Mapty, un carnet pour vos courses à pied et sorties à vélo : trajets sur la carte, séances et bilan de la semaine.">
-  <title>Mapty · Vos sorties, sur la carte</title>
-  <link rel="icon" href="icon.png">
-  <link rel="stylesheet" href="accueil.css?v=accueil-1">
-</head>
-<body>
-  <a class="skip-link" href="#contenu">Aller au contenu</a>
-  <header class="site-header"><a class="brand" href="index.html" aria-label="Mapty, accueil"><img src="icon.png" width="27" height="27" alt="">mapty</a><nav aria-label="Navigation principale"><a href="connexion.html">Se connecter</a></nav></header>
-  <main id="contenu">
-    <section class="hero wrap" aria-labelledby="titre-accueil">
-      <div class="hero-copy"><h1 id="titre-accueil">Vos sorties,<br>sur la carte.</h1><p>À pied ou à vélo, gardez vos trajets, vos distances et vos temps dans un même carnet.</p><a class="button primary" href="journal.html">Essayer sans compte</a><p class="small-note">Votre carnet reste dans votre navigateur.</p></div>
-      <figure class="hero-preview"><picture><source media="(max-width:649px)" srcset="assets/carnet-mobile.png"><source media="(max-width:1059px)" srcset="assets/carnet-tablette.png"><img src="assets/carnet-apercu.png?v=trajet-1" width="1440" height="900" fetchpriority="high" alt="Le journal Mapty dans sa composition adaptée à l’écran, avec des séances de démonstration"></picture><figcaption>Aperçu du carnet · séances de démonstration.</figcaption></figure>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="description" content="Mapty : essayez un trajet à pied ou à vélo, puis gardez vos sorties dans votre carnet."><title>Mapty · Vos sorties, sur la carte</title><link rel="icon" href="icon.png"><link rel="stylesheet" href="accueil.css?v=vivant-2"><script type="module" src="accueil.js?v=vivant-2"></script></head>
+<body class="home-live">
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<header class="site-header"><a class="brand" href="index.html" aria-label="Mapty, accueil"><img src="icon.png" width="27" height="27" alt="">mapty</a><nav aria-label="Navigation principale"><a href="connexion.html">Se connecter</a></nav></header>
+<main id="contenu">
+  <section class="hero wrap" aria-labelledby="titre-accueil">
+    <div class="hero-copy"><h1 id="titre-accueil">Vos sorties,<br>sur la carte.</h1><p>À pied ou à vélo, gardez vos trajets, vos distances et vos temps dans un même carnet.</p><a class="button primary" href="journal.html">Essayer sans compte</a><p class="small-note">Votre carnet reste dans votre navigateur.</p></div>
+    <section class="route-demo" aria-labelledby="demo-title">
+      <div class="demo-heading"><h2 id="demo-title">Un départ. Une arrivée.</h2><span>Abidjan · exemple</span></div>
+      <fieldset class="demo-sports" disabled><legend>Choisir un trajet d’exemple</legend><label><input type="radio" name="demo-sport" value="running" checked><span>À pied</span></label><label><input type="radio" name="demo-sport" value="cycling"><span>À vélo</span></label></fieldset>
+      <div class="demo-stage"><svg class="demo-svg" viewBox="0 0 600 340" role="img" aria-label="Aperçu du trajet A/B à Abidjan"><path id="route-guide" fill="none" stroke="#c6d6c9" stroke-width="3"/><path id="route-line" fill="none" stroke="#245b43" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><g id="pin-a"><circle r="17" fill="#202923" stroke="white" stroke-width="3"/><text y="5" text-anchor="middle" fill="white" font-size="14" font-weight="600">A</text></g><g id="pin-b"><circle r="17" fill="#245b43" stroke="white" stroke-width="3"/><text y="5" text-anchor="middle" fill="white" font-size="14" font-weight="600">B</text></g></svg><div id="demo-map" aria-label="Carte du trajet d’exemple" hidden></div><p id="map-error" class="demo-map-error" role="status" hidden></p></div>
+      <div class="route-readout"><p><span>A</span><strong id="demo-start">Départ</strong></p><p><span>B</span><strong id="demo-end">Arrivée</strong></p><p class="route-distance"><strong id="demo-distance">…</strong><span>km calculés</span></p></div>
+      <div class="demo-actions"><button type="button" id="replay-route" class="text-action" disabled>Rejouer le tracé</button><button type="button" id="show-demo-map" class="text-action" disabled>Afficher la carte</button></div>
+      <p id="demo-status" class="demo-status" role="status">Chargement des trajets d’exemple…</p><p class="demo-source">Tracés précalculés par <a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener">FOSSGIS / OSRM</a>. Aucun accès à votre position.</p>
     </section>
-    <section class="feature route-feature wrap" aria-labelledby="titre-trajet">
-      <div class="feature-copy"><h2 id="titre-trajet">Un départ,<br>une arrivée.</h2><p>Choisissez les points A et B. Mapty calcule un itinéraire par les rues et les chemins, adapté à la course à pied ou au vélo.</p><p>Vérifiez le tracé, puis ajoutez-le à votre séance.</p><p class="aside-note"><strong>Me localiser</strong> affiche votre position. Vous gardez la main sur le choix du départ et de l’arrivée.</p></div>
-      <figure class="feature-visual"><img src="assets/trajet-exemple.png" width="390" height="844" loading="lazy" alt="Un trajet d’exemple sur la carte avec le départ A, l’arrivée B et le bouton Utiliser ce trajet"><figcaption>Un trajet d’exemple à Abidjan.</figcaption></figure>
-    </section>
-    <section class="feature journal-feature wrap" aria-labelledby="titre-carnet">
-      <div class="feature-copy"><h2 id="titre-carnet">Après la sortie,<br>le carnet.</h2><p>Ajoutez la date, la distance et la durée de votre séance. Donnez-lui un nom si vous le souhaitez.</p><p>Retrouvez ensuite vos sorties, modifiez leurs informations et consultez votre bilan de la semaine.</p></div>
-      <figure class="feature-visual"><img src="assets/seance-exemple.png" width="390" height="844" loading="lazy" alt="Fiche d’une séance de démonstration avec sa distance, sa durée, son allure et l’aperçu du trajet"><figcaption>Une séance de démonstration dans le carnet.</figcaption></figure>
-    </section>
-    <section class="data-section" aria-labelledby="titre-sauvegarde"><div class="wrap data-copy"><h2 id="titre-sauvegarde">Gardez une copie<br>de vos sorties.</h2><div><p>Vos séances sont enregistrées dans le navigateur utilisé. Pensez à exporter votre carnet pour le sauvegarder ou le transférer sur un autre appareil.</p><p>Aucun compte n’est nécessaire pour commencer.</p><details class="save-help"><summary>Comment sauvegarder mon carnet ?</summary><p>Dans le carnet, ouvrez <strong>Options</strong>, puis <strong>Exporter mes séances</strong>. Conservez le fichier téléchargé. Pour le retrouver sur un autre navigateur, utilisez <strong>Importer une sauvegarde</strong>.</p></details></div></div></section>
-  </main>
-  <footer class="site-footer"><span>Mapty · Carnet de sorties</span><nav aria-label="Informations"><a href="https://github.com/v2r2y2/mapty-portfolio" target="_blank" rel="noopener">Code du projet</a><a href="credits.html">Crédits</a></nav></footer>
-</body>
-</html>
+  </section>
+  <section class="journal-demo wrap" aria-labelledby="titre-carnet">
+    <div class="journal-intro"><h2 id="titre-carnet">Après la sortie,<br>le carnet.</h2><p>La date, la distance, la durée. Retrouvez vos séances et votre bilan de la semaine.</p></div>
+    <article class="sample-session" aria-labelledby="sample-title"><div class="sample-title-row"><div><p class="sample-label">Séance de démonstration</p><h3 id="sample-title">Course à pied à Abidjan</h3></div><span class="sample-date">18 novembre 2026</span></div><dl><div><dt>Distance</dt><dd id="sample-distance">…</dd></div><div><dt>Durée d’exemple</dt><dd id="sample-duration">…</dd></div><div><dt id="sample-rate-label">Allure moyenne</dt><dd id="sample-rate">…</dd></div></dl><div class="sample-actions"><button type="button" id="download-sample" class="text-action" disabled>Télécharger cet exemple</button><a href="journal.html">Ouvrir mon carnet</a></div><p class="sample-disclaimer">Cet exemple n’est pas ajouté à vos séances.</p></article>
+  </section>
+  <section class="storage-strip wrap" aria-labelledby="titre-sauvegarde"><div><h2 id="titre-sauvegarde">Votre carnet, sur cet appareil.</h2><p>Gardez une copie pour retrouver vos sorties ailleurs.</p></div><details class="save-help"><summary>Comment sauvegarder mes séances ?</summary><p>Dans le carnet : <strong>Options</strong>, puis <strong>Exporter mes séances</strong>. Conservez le fichier. Sur un autre navigateur, choisissez <strong>Importer une sauvegarde</strong>.</p></details></section>
+</main>
+<footer class="site-footer"><span>Mapty · Carnet de sorties</span><nav aria-label="Informations"><a href="https://github.com/v2r2y2/mapty-portfolio" target="_blank" rel="noopener">Code du projet</a><a href="credits.html">Crédits</a></nav></footer>
+</body></html>

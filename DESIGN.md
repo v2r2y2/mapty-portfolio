@@ -111,17 +111,19 @@ components:
 
 Un carnet de sorties et une carte qui servent une tâche à la fois. L’interface claire emploie la police système, une encre sombre et un vert forêt pour les actions et les trajets. La direction anthracite/Manrope a été remplacée explicitement.
 
-L’extension d’accueil conserve ce système : présentation et action dans un mode Persuade sobre validé ; connexion et carnet en mode Operate. ENERGY 1 / RHYTHM 2 sur ces surfaces, MOTION 1 pour l’accueil et le carnet, MOTION 2 uniquement pour le diagramme A/B de connexion. Les variations de composition répondent aux tâches et aux dimensions disponibles. Le contenu réel, la carte utilitaire et les lignes du journal portent l’identité ; le mouvement reste un retour d’action ou une explication ponctuelle.
+L’accueil associe Operate et Persuade par démonstration : changer de sport modifie le trajet, sa distance et la séance présentée. ENERGY 2 / RHYTHM 2 / MOTION 2 s’appliquent à cette surface. La connexion conserve Operate, ENERGY 1 / RHYTHM 2 / MOTION 2 pour son seul diagramme A/B ; le carnet conserve Operate, ENERGY 1 / RHYTHM 2 / MOTION 1. La géométrie et les chiffres rendent la relation entre action et résultat visible ; ils portent la persuasion sans décor supplémentaire.
+
+La densité rassemble le choix, le trajet et sa lecture dans un panneau, puis la séance correspondante dans une section proche. L’aide de sauvegarde tient dans une bande compacte : elle accompagne la tâche sans prolonger artificiellement la page. Les captures de téléphone vides et les longues sections statiques ne servent plus de présentation.
 
 **Key Characteristics:**
 - Palette claire et un accent vert de fonction.
 - Police système, métriques à chiffres tabulaires.
 - Téléphone, tablette et bureau disposent de compositions distinctes.
-- Motif A/B et aperçus SVG issus de la géométrie enregistrée.
+- Motif A/B et aperçu SVG issu de vrais trajets précalculés ; séance HTML liée au sport choisi.
 
 Documentation fusionnée par lecture directe de `index.html`, `connexion.html`,
 `journal.html`, `credits.html`, `style.css`, `accueil.css`, `script.js`,
-`connexion.js` et `assets/README.md`. Aucun extracteur automatique Impeccable n’a été exécuté ; ce document
+`connexion.js`, `accueil.js`, `assets/demo-routes.json` et `assets/README.md`. Aucun extracteur automatique Impeccable n’a été exécuté ; ce document
 ne constitue pas un nouvel audit visuel. `PRODUCT.md` demeure la vérité produit.
 
 ## Colors
@@ -169,40 +171,17 @@ avec chiffres tabulaires. Les champs restent à 1 rem.
 
 ### Accueil, connexion et crédits
 
-- `index.html` est la vraie page d’accueil : en-tête, titre et aperçu du carnet,
-  explication du trajet, explication du carnet, sauvegarde et pied de page.
-  L’action principale « Essayer sans compte » mène à `journal.html` ; le lien
-  « Se connecter » mène à `connexion.html`.
-- `connexion.html` annonce les comptes non activés, conserve ses champs et son
-  bouton de connexion désactivés et propose la même entrée sans compte.
-  `credits.html` rassemble les crédits et attributions.
-- `journal.html` conserve l’application, `script.js` et son stockage navigateur ;
-  le menu Options propose « Accueil » vers `index.html`. Il n’y a ni compte,
-  ni synchronisation, ni nouveau backend ou framework dans cette extension.
-- Le contenu de présentation défile dans la page, dans un conteneur de 1240 px
-  maximum avec marges intérieures de 24 px, puis 40 px dès 650 px.
-- Sous 650 px : texte et action avant le visuel, sections empilées avec texte avant
-  capture. Le hero utilise une vraie capture du journal mobile via `picture` /
-  `source` (`assets/carnet-mobile.png`), et non le bureau réduit. Les aperçus de
-  fonctionnalités sont limités à 260 px ; la connexion
-  affiche directement le panneau de formulaire et masque la colonne A/B.
-- Dès 650 px : sections trajet et carnet sur deux colonnes, écart de 32 px ;
-  le titre et l’aperçu principal restent empilés. Le formulaire atteint au plus
-  420 px et sa colonne narrative reste masquée.
-- De 650 à 1059 px, l’aperçu principal utilise `assets/carnet-tablette.png`,
-  capture du vrai journal à 768×844. Le ratio est réservé en CSS. À partir de
-  1060 px, le visuel bureau remplace les sources compactes.
-- Dès 1060 px : titre et aperçu principal en deux colonnes (340 px et largeur
-  restante, écart de 56 px) ; sections à écart de 80 px et alternance de la section
-  trajet ; sauvegarde en deux colonnes. La connexion révèle sa colonne papier
-  avec diagramme A/B et un formulaire de 380 px maximum.
+- `index.html` rassemble titre/action, démonstration de trajet, séance HTML liée et aide de sauvegarde compacte. « Essayer sans compte » mène à `journal.html` ; « Se connecter » mène à `connexion.html`.
+- `connexion.html` conserve les comptes non activés, ses champs et sa soumission désactivés et l’entrée sans compte. `credits.html` rassemble crédits et attributions.
+- `journal.html` conserve l’application, `script.js` et son stockage navigateur ; Options propose « Accueil ». La démonstration ne modifie pas ce stockage.
+- Le conteneur de présentation reste limité à 1240 px, avec marges intérieures de 24 px puis 40 px dès 650 px.
+- Sous 650 px : copie et action précèdent la démonstration ; scène de 244 px, lecture A/B et distance sur deux colonnes. La séance présente deux colonnes de métriques et son allure/vitesse sur toute la largeur. La connexion montre directement le formulaire, sans colonne A/B.
+- De 650 à 1059 px : hero empilé, scène de 310 px ; section carnet/démonstration en deux colonnes et métriques sur trois colonnes. La connexion reste limitée à 420 px, sans colonne narrative.
+- Dès 1060 px : hero en deux colonnes de 340 px et largeur fluide, écart de 56 px ; scène de 300 px. La section carnet suit la même grille 340 px + reste avec 56 px d’écart. La bande de sauvegarde s’aligne selon l’espace disponible. La connexion révèle sa colonne papier A/B et un formulaire limité à 380 px.
 
-Les seuils sont liés à deux besoins différents : 1050 px libère l’espace du
-journal et de la carte en parallèle ; 1060 px réserve assez d’espace au titre
-d’accueil de 340 px, à son écart et à son aperçu fluide. De 1050 à 1059 px, le
-carnet est donc en composition bureau et l’accueil reste empilé ; la connexion
-conserve son formulaire seul. Les contrats et la matrice de validation à renseigner
-par des preuves figurent dans `docs/RESPONSIVE.md`.
+Le SVG garde la géométrie lisible à chaque largeur ; il remplace les anciennes captures et leurs sélections `picture`/`source`. Les images anciennes restent des archives, sans rôle dans le contrat courant. La proximité entre choix sportif, tracé et chiffres permet de lire immédiatement la conséquence d’une action. La hauteur de scène est réservée pour éviter qu’un chargement déplace les commandes.
+
+Les seuils répondent aux tâches : 1050 px libère journal et carte en parallèle ; 1060 px réserve assez de place au texte de 340 px, à la démonstration fluide et à la colonne de connexion. Entre ces seuils, le carnet est en composition bureau et l’accueil reste empilé. `docs/RESPONSIVE.md` distingue ce contrat des preuves à renouveler après cette correction.
 
 ### Carnet existant
 
@@ -277,13 +256,10 @@ Les lignes de séance n’ont ni carte arrondie ni ombre.
 - **Action d’entrée :** même vert forêt, rayon de 7 px, hauteur minimale de 48 px,
   marges intérieures de 11 px sur 20 px. Le focus conserve l’anneau de 3 px,
   décalé de 4 px sur les pages de présentation (3 px dans le carnet).
-- **Aperçus :** captures réelles de l’adaptation locale avec données de
-  démonstration, bord fin et coins de 8 px, légende visible et texte alternatif.
-  `assets/carnet-apercu.png`, `assets/trajet-exemple.png` et
-  `assets/seance-exemple.png`, ainsi que l’aperçu mobile
-  `assets/carnet-mobile.png`, sont documentés dans `assets/README.md` : captures
-  du 18 novembre 2026 à partir de séances de test à Abidjan, sans données privées,
-  sans ajout au carnet des visiteurs. Les attributions restent visibles.
+- **Démonstration de trajet :** SVG projeté depuis `assets/demo-routes.json` : 71 points / 2194,9 m à pied et 76 points / 2222 m à vélo, à Abidjan. Le choix sportif change géométrie, distance, titre, durée d’exemple et allure/vitesse de la séance HTML. A/B, la source FOSSGIS / OSRM et le caractère d’exemple restent explicites. Aucun appel de calcul d’itinéraire ni accès à la position du visiteur n’est nécessaire.
+- **Carte à la demande :** « Afficher la carte » charge Leaflet 1.6 local et déclenche les tuiles OpenStreetMap après action explicite. Les commandes de zoom et les attributions restent visibles. Le SVG donne déjà un résultat avant cette demande ; les messages d’échec restent associés à la zone de démonstration.
+- **Séance d’exemple :** métriques HTML sélectionnables et fichier JSON version 2 téléchargeable, contenant un workout compatible avec le carnet. Le téléchargement ne remplit pas le stockage du visiteur.
+- **Tracé explicatif :** lecture de 1800 ms, une fois lorsque la scène devient visible, puis sur changement de sport, ouverture de carte ou « Rejouer le tracé ». Le tracé ne boucle pas. Le mouvement rend la géométrie perceptible et répond aux actions ; il n’anime pas le fond. Avec mouvement réduit, le tracé est statique et les animations Leaflet sont désactivées.
 - **Aide de sauvegarde :** élément natif `details` / `summary` souligné ; il
   explique les commandes d’export et d’import du carnet, sans promettre de sync.
 - **Compte indisponible :** notice sur fond papier associée au formulaire par
@@ -296,7 +272,7 @@ Les lignes de séance n’ont ni carte arrondie ni ombre.
   1060 px, sans boucle : `hasPlayed` empêche la relance lors d’un retour d’onglet
   ou d’un changement de largeur. Un changement de visibilité ou de préférence
   annule les animations en cours et rend le tracé statique. En mouvement réduit,
-  le diagramme reste statique dès le départ. L’accueil n’a pas de mouvement d’ambiance.
+  le diagramme reste statique dès le départ. L’accueil ne possède aucun mouvement d’ambiance ; sa démonstration répond aux règles de tracé ci-dessus.
 
 Avec mouvement réduit, les transitions CSS sont supprimées et Leaflet désactive
 ses animations de zoom et fondu. Aucun mouvement d’ambiance n’est ajouté.
@@ -308,7 +284,7 @@ ses animations de zoom et fondu. Aucun mouvement d’ambiance n’est ajouté.
 - Do garder A/B et le sport explicites.
 - Do conserver erreurs, commandes de zoom et attributions visibles.
 - Do employer des SVG pour le chevron et l’inversion A/B.
-- Do légender les captures de démonstration et conserver leur provenance.
+- Do identifier les démonstrations, leurs sources et leur absence d’effet sur le carnet visiteur.
 - Do rendre explicite l’indisponibilité des comptes et maintenir l’entrée sans compte.
 
 ### Don't:

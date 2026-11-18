@@ -15,8 +15,11 @@ de Jonas Schmedtmann. Périmètre demandé dans le chat le 18 novembre 2026.
 - Stockage local, import/export compatible avec les anciens historiques.
 - Crédits et conditions préservés, cours original intact, publication GitHub Pages autorisée par le propriétaire.
 
-Extension validée : accueil complet avec aperçu réel, explication A/B, carnet,
-sauvegarde et liens de crédits. L’accès sans compte ouvre `journal.html`, sur la
+Extension validée : accueil avec trajets précalculés à pied/vélo, dessin progressif,
+distance et séance HTML liées au sport choisi. Fond Leaflet ouvert explicitement,
+exemple téléchargeable et aide de sauvegarde compacte. Les durées de démonstration
+sont illustratives ; aucun exemple n’est écrit dans le carnet du visiteur.
+L’accès sans compte ouvre `journal.html`, sur la
 même origine et avec le même stockage qu’avant. L’accueil est `index.html`.
 Connexion visuelle avec animation A/B, comptes explicitement non activés et
 champs désactivés ; aucune authentification ou synchronisation simulée.

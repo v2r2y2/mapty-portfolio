@@ -1,5 +1,32 @@
 # Vérification locale · 18 novembre 2026
 
+## Correction de l’accueil interactif
+
+Cette section remplace les constats d’accueil à captures consignés plus bas.
+Le carnet, la connexion et leurs essais historiques restent distincts.
+
+- Choix à pied/vélo : géométrie différente, distances 2,19/2,22 km et séance liée.
+- Dessin de 1 800 ms puis arrêt ; replay explicite ; mouvement réduit sans animation.
+- Aucun appel externe avant ouverture explicite du fond de carte. Ouverture réelle :
+  huit tuiles chargées et une polyligne. Aucune demande de position.
+- Export des deux exemples ; JSON version 2 lu par le modèle natif. La clé
+  `workouts` est restée identique pendant le parcours interactif.
+- Erreur des exemples puis nouvelle tentative ; échec du CSS Leaflet puis reprise ;
+  tuiles indisponibles avec message et tracé conservé. Ces pannes ont été simulées.
+- Douze largeurs de 320 à 1672 px, sans débordement ; scène 244/310/300 px selon
+  composition. Aucun écran du produit miniaturisé : SVG et métriques HTML natifs.
+- Carte redimensionnée à 320, 768, 1672 puis 390 px : A/B visibles ; deux marqueurs
+  après changements de sport, sans accumulation. Aide de sauvegarde et focus testés.
+- Racine typographique agrandie à 200 % à 390 px : pas de débordement horizontal.
+  Cela ne constitue pas un essai de zoom navigateur à 200/400 %.
+- Zéro exception JavaScript applicative. Les erreurs réseau attendues des pannes
+  simulées restent distinguées des exceptions applicatives.
+
+Preuves : `docs/verification-accueil-interactif.json`. Rendus Chromium bureau
+1672 px et mobile 390 px observés, avec revue indépendante de la correction.
+Pas de validation sur téléphone physique ou Safari. La qualité visuelle reste
+à apprécier par le propriétaire ; les contrôles ne remplacent pas son jugement.
+
 ## Logique
 
 `node --test tests/*.test.mjs` : **15 tests réussis**. Calculs de l’auteur,

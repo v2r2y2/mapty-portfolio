@@ -20,6 +20,10 @@ compositions et les vérifications effectuées.
 
 ## Ajouter une sortie
 
+L’accueil permet de comparer un trajet à pied et à vélo : la ligne se dessine,
+la distance et la séance d’exemple suivent le sport choisi. Le fond de carte
+s’ouvre à la demande. Vous pouvez télécharger l’exemple sans modifier votre carnet.
+
 Depuis l’accueil, **Essayer sans compte** ouvre le carnet. La page de connexion
 présente les comptes à venir ; ils ne sont pas encore activés et aucune adresse
 ou mot de passe n’y est demandé pour utiliser l’application.
