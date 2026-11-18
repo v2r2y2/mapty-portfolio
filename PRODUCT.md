@@ -1,18 +1,19 @@
-# Mapty — journal sportif personnel
+# Mapty · Carnet de sorties
 
-Le propriétaire du projet souhaite utiliser l’application comme son propre
-journal de course à pied et de vélo, puis expliquer ses contributions dans un
-portfolio. Périmètre validé dans le chat le 18 novembre 2026.
+Application personnelle pour consigner des sorties à pied ou à vélo et retrouver
+leurs itinéraires. Adaptation présentable dans un portfolio, avec crédit à Mapty
+de Jonas Schmedtmann. Périmètre demandé dans le chat le 18 novembre 2026.
 
-- Conserver la base de Jonas Schmedtmann : HTML, CSS, JavaScript, Leaflet,
-  modèles Workout / Running / Cycling et classe App. Aucun framework ni build.
-- Français complet, séances datées, ajout, édition, suppression confirmée,
-  filtres par sport/période, tri, bilan hebdomadaire du lundi au dimanche.
-- Une séance correspond à un point géographique, sans suivi de trajet GPS.
-- Dernière vue mémorisée, sinon Abidjan ; localisation facultative et non bloquante.
-- Données dans le navigateur, import/export JSON et reprise des anciens historiques.
-- Interface pour ordinateur et téléphone, accessible au clavier.
-- Préserver les crédits, conditions d’origine et licences tierces.
-- Le cours original reste intact. Aucun push ni hébergement à cette étape.
+- Base HTML/CSS/JavaScript, Leaflet et modèles de l’auteur, sans framework.
+- Français, date, nom facultatif, distance et durée ; cadence/dénivelé facultatifs.
+- Ajout, consultation, modification, suppression confirmée, filtres et tri.
+- Bilan réel du lundi au dimanche.
+- Choix A/B, calcul par les rues selon le sport, affichage et acceptation du tracé.
+- Géométrie conservée avec la séance ; ancien point unique ou saisie libre possibles.
+- Écrans mobiles dédiés, compositions tablette et bureau distinctes, police système.
+- Accès clavier, erreurs et chargements explicites, localisation facultative.
+- Stockage local, import/export compatible avec les anciens historiques.
+- Crédits et conditions préservés, cours original intact, aucun push ou hébergement.
 
-Comptes, synchronisation, réseaux sociaux et suivi GPS sont hors de cette version.
+Hors périmètre : comptes, synchronisation, réseau social, suivi GPS en direct,
+guidage, recherche d’adresses, points intermédiaires, cartes hors ligne.

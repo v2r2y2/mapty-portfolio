@@ -1,34 +1,126 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T11:39:47.952710+00:00",
-  "title": "Design System: Mapty — journal sportif",
+  "generatedAt": "2026-11-18T13:03:41+00:00",
+  "title": "Design System: Mapty · Carnet de sorties",
   "extensions": {
-    "breakpoints": [
+    "provenance": {
+      "method": "direct-source-reading",
+      "sources": [
+        "index.html",
+        "style.css",
+        "script.js"
+      ],
+      "automaticExtractorRun": false,
+      "note": "Moteur Impeccable indisponible ; aucune exécution automatique ni nouvel audit visuel."
+    },
+    "mode": "Operate",
+    "dials": {
+      "energy": 1,
+      "rhythm": 2,
+      "motion": 1
+    },
+    "colorMeta": {
+      "paper": {
+        "displayName": "paper",
+        "role": "neutral"
+      },
+      "surface": {
+        "displayName": "surface",
+        "role": "neutral"
+      },
+      "ink": {
+        "displayName": "ink",
+        "role": "neutral"
+      },
+      "muted": {
+        "displayName": "muted",
+        "role": "neutral"
+      },
+      "line": {
+        "displayName": "line",
+        "role": "neutral"
+      },
+      "accent": {
+        "displayName": "accent",
+        "role": "primary"
+      },
+      "accent-hover": {
+        "displayName": "accent-hover",
+        "role": "primary"
+      },
+      "tint": {
+        "displayName": "tint",
+        "role": "primary"
+      },
+      "danger": {
+        "displayName": "danger",
+        "role": "functional"
+      },
+      "focus": {
+        "displayName": "focus",
+        "role": "functional"
+      },
+      "control-border": {
+        "displayName": "control-border",
+        "role": "neutral"
+      }
+    },
+    "shadows": [
       {
-        "name": "phone",
-        "value": "420px"
+        "name": "map-controls",
+        "value": "0 3px 12px #20292318"
       },
       {
-        "name": "tablet",
-        "value": "700px"
+        "name": "selection-toast",
+        "value": "0 4px 18px #2029231a"
       },
       {
-        "name": "desktop",
-        "value": "1050px"
+        "name": "options",
+        "value": "0 8px 28px #2029231a"
+      },
+      {
+        "name": "route-builder",
+        "value": "0 5px 22px #20292329"
+      },
+      {
+        "name": "route-pin",
+        "value": "0 2px 6px #20292330"
       }
     ],
     "motion": [
       {
-        "name": "controls",
-        "value": "background-color 150ms ease-out",
-        "purpose": "Réponse discrète des contrôles ; désactivée en mouvement réduit."
+        "name": "background",
+        "value": "120ms ease-out"
+      },
+      {
+        "name": "press",
+        "value": "100ms ease-out; translateY(1px)"
+      },
+      {
+        "name": "reduced",
+        "value": "Transitions CSS supprimées ; zoomAnimation et fadeAnimation Leaflet désactivées."
       }
     ],
-    "shadows": [
+    "breakpoints": [
       {
-        "name": "map-status",
-        "value": "0 4px 12px #20352a26",
-        "purpose": "État de chargement lisible sur les tuiles."
+        "name": "narrow-max",
+        "value": "360px",
+        "query": "(max-width: 360px)"
+      },
+      {
+        "name": "tablet",
+        "value": "650px",
+        "query": "(min-width: 650px) and (max-width: 1049px)"
+      },
+      {
+        "name": "desktop",
+        "value": "1050px",
+        "query": "(min-width: 1050px)"
+      },
+      {
+        "name": "wide",
+        "value": "1450px",
+        "query": "(min-width: 1450px)"
       }
     ]
   },
@@ -36,72 +128,78 @@
     {
       "name": "Action principale",
       "kind": "button",
-      "description": "Action principale",
-      "html": "<button class=\"ds-primary\">Enregistrer la séance</button>",
-      "css": ".ds-primary {background:var(--color-brand--2);color:#102e20;border:0;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif}.ds-primary:hover{background:#36da8d}.ds-primary:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}",
+      "html": "<div class=\"ds-component\"><button type=\"button\" class=\"ds-button ds-primary\">Enregistrer la séance</button></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}button:active:not(:disabled),.ds-button:active:not(:disabled){transform: translateY(1px);}.ds-button{display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 7px; padding: 11px 16px; font-weight: 600; font-size: .9375rem; text-decoration: none; transition: background-color 120ms ease-out, transform 100ms ease-out;}.ds-primary{background: var(--accent); color: #fff;}.ds-primary:hover:not(:disabled){background: var(--accent-hover);}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}",
       "refersTo": "button-primary"
     },
     {
       "name": "Action secondaire",
       "kind": "button",
-      "description": "Action secondaire",
-      "html": "<button class=\"ds-secondary\">Me localiser</button>",
-      "css": ".ds-secondary{background:var(--color-dark--2);color:var(--color-light--2);border:1px solid #68757c;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif}.ds-secondary:hover{background:#505b62}.ds-secondary:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}",
-      "refersTo": "button-surface"
+      "html": "<div class=\"ds-component\"><button type=\"button\" class=\"ds-button ds-secondary\">Modifier la séance</button></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}button:active:not(:disabled),.ds-button:active:not(:disabled){transform: translateY(1px);}.ds-button{display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 7px; padding: 11px 16px; font-weight: 600; font-size: .9375rem; text-decoration: none; transition: background-color 120ms ease-out, transform 100ms ease-out;}.ds-secondary{border-color: #aeb7af; background: var(--surface); color: var(--ink);}.ds-secondary:hover:not(:disabled){background: var(--tint);}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}",
+      "refersTo": "button-secondary"
     },
     {
-      "name": "Champ de séance",
+      "name": "Action textuelle",
+      "kind": "button",
+      "html": "<div class=\"ds-component\"><button type=\"button\" class=\"ds-text-button\">Filtrer</button></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}.ds-text-button{background: none; border: 0; padding: 8px 4px; color: var(--accent); font-size: .875rem; font-weight: 550; text-decoration: underline; text-underline-offset: 4px;}.ds-text-button:hover{color: var(--ink);}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}",
+      "refersTo": "button-text"
+    },
+    {
+      "name": "Champ de saisie",
       "kind": "input",
-      "description": "Champ de séance",
-      "html": "<label class=\"ds-field\">Distance (km)<input placeholder=\"Ex. : 5,5\" inputmode=\"decimal\"></label>",
-      "css": ".ds-field{display:grid;gap:6px;color:var(--color-light--2);font:600 13px Manrope,sans-serif}.ds-field input{background:var(--color-dark--1);color:var(--color-light--2);border:1px solid #78868c;border-radius:6px;padding:9px 10px;min-height:44px;font:400 15px Manrope,sans-serif}.ds-field input:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}@media(max-width:420px){.ds-field input{font-size:16px}}.ds-field input[aria-invalid=\"true\"]{border-color:var(--color-error)}",
+      "html": "<div class=\"ds-component\"><label for=\"ds-name\">Nom <span>facultatif</span></label><input id=\"ds-name\" placeholder=\"Ex. : Course du matin\" /></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}.ds-component label,.ds-component legend{display: block; font-size: .875rem; font-weight: 550; margin-bottom: 8px;}.ds-component label span{color: var(--muted); font-weight: 400; font-size: .8125rem; margin-left: 4px;}.ds-component input,.ds-component select{width: 100%; min-width: 0; border: 1px solid #aeb7af; border-radius: 7px; background: var(--surface); color: var(--ink); padding: 11px 12px; caret-color: var(--accent); font-size: 1rem;}.ds-component input::placeholder{color: #68726a; opacity: 1;}.ds-component input[aria-invalid='true']{border-color: var(--danger);}.ds-component input{box-sizing:border-box}",
       "refersTo": "input"
     },
     {
-      "name": "Fiche de séance",
-      "kind": "card",
-      "description": "Fiche de séance",
-      "html": "<article class=\"ds-workout\"><strong>Course à pied</strong><p>5,5 km · 30 min</p><button>Modifier</button></article>",
-      "css": ".ds-workout{background:var(--color-dark--2);color:var(--color-light--2);border-radius:12px;padding:16px;font:400 15px Manrope,sans-serif}.ds-workout strong,.ds-workout button{color:var(--color-running-text)}.ds-workout button{background:none;border:0;text-decoration:underline;min-height:44px;padding:8px 0;font:400 13px Manrope,sans-serif;text-underline-offset:4px}.ds-workout button:focus-visible{outline:3px solid var(--color-brand--1)}",
-      "refersTo": "workout"
+      "name": "Navigation mobile",
+      "kind": "nav",
+      "html": "<div class=\"ds-component\"><nav class=\"ds-mobile-nav\" aria-label=\"Navigation principale\"><a href=\"#journal\" aria-current=\"page\">Journal</a><a href=\"#map-view\">Carte</a><button type=\"button\">Ajouter</button></nav></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}.ds-mobile-nav{display: grid; grid-template-columns: repeat(3,1fr); flex: 0 0 auto; min-height: var(--nav-height,68px); padding: 8px 12px max(8px,env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--line); gap: 8px;}.ds-mobile-nav > a,.ds-mobile-nav > button{min-height: 48px; display: flex; align-items: center; justify-content: center; font-size: .875rem; font-weight: 550; border: 0; border-radius: 7px; text-decoration: none; color: var(--muted); background: transparent;}.ds-mobile-nav > [aria-current='page']{background: var(--tint); color: var(--accent);}.ds-mobile-nav > button{color: var(--accent);}.ds-mobile-nav > a:hover,.ds-mobile-nav > button:hover{background: var(--tint);}body[data-editing='true'] .ds-mobile-nav{display: none;}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}"
     },
     {
-      "name": "État de carte",
+      "name": "Choix sportif",
       "kind": "custom",
-      "description": "État de carte",
-      "html": "<div class=\"ds-map-state\">Chargement du fond de carte…</div>",
-      "css": ".ds-map-state{background:var(--color-dark--1);color:var(--color-light--2);border-radius:7px;padding:10px 14px;font:400 13px Manrope,sans-serif;box-shadow:0 4px 12px #20352a26}"
+      "html": "<div class=\"ds-component\"><fieldset class=\"ds-sport-picker\"><legend>Sport</legend><label><input type=\"radio\" name=\"ds-sport\" checked /><span>Course à pied</span></label><label><input type=\"radio\" name=\"ds-sport\" /><span>Vélo</span></label></fieldset></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}.ds-sport-picker{border: 0; padding: 0; margin: 0 0 24px; display: flex; gap: 8px;}.ds-sport-picker legend{margin-bottom: 10px;}.ds-sport-picker label{display: flex; align-items: center; flex: 1; margin: 0; position: relative;}.ds-sport-picker input{position: absolute; opacity: 0; inset: 0; width: 100%; min-height: 44px; margin: 0; cursor: pointer;}.ds-sport-picker span{display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; border: 1px solid #aeb7af; border-radius: 7px; margin: 0; color: var(--ink); font-size: .9375rem; font-weight: 550;}.ds-sport-picker input:checked + span{border-color: var(--accent); background: var(--tint); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent);}.ds-sport-picker input:focus-visible + span{outline: 3px solid var(--focus); outline-offset: 3px;}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}.ds-component label,.ds-component legend{display: block; font-size: .875rem; font-weight: 550; margin-bottom: 8px;}.ds-component label span{color: var(--muted); font-weight: 400; font-size: .8125rem; margin-left: 4px;}.ds-component input,.ds-component select{width: 100%; min-width: 0; border: 1px solid #aeb7af; border-radius: 7px; background: var(--surface); color: var(--ink); padding: 11px 12px; caret-color: var(--accent); font-size: 1rem;}.ds-component input::placeholder{color: #68726a; opacity: 1;}.ds-component input[aria-invalid='true']{border-color: var(--danger);}"
     },
     {
-      "name": "Action discrète",
-      "kind": "button",
-      "refersTo": "button-quiet",
-      "description": "Exporter",
-      "html": "<button class=\"ds-quiet\">Exporter</button>",
-      "css": ".ds-quiet{border:1px solid transparent;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif;transition:background-color 150ms ease-out;background:transparent;color:var(--color-light--2);padding-inline:9px;}.ds-quiet:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}.ds-quiet:hover:not(:disabled){background:var(--color-dark--2)}"
+      "name": "Aperçu A/B",
+      "kind": "custom",
+      "html": "<div class=\"ds-component\"><button type=\"button\" class=\"ds-route-preview\"><span class=\"ds-route-preview-visual\" aria-hidden=\"true\"><span class=\"ds-route-letter\">A</span><span class=\"ds-route-preview-line\"></span><span class=\"ds-route-letter\">B</span></span><span class=\"ds-route-preview-copy\"><strong>Définir un départ et une arrivée</strong><span>Tracer un itinéraire sur la carte</span></span><svg class=\"ds-route-preview-chevron\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 6 6 6-6 6\" /></svg></button></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}.ds-route-letter{display: grid; place-items: center; border: 1px solid var(--accent); border-radius: 50%; width: 28px; height: 28px; flex-shrink: 0; font-size: .75rem; font-weight: 650;}.ds-route-preview-line{flex: 1; height: 1px; background: var(--accent);}.ds-route-preview{display: flex; flex-wrap: wrap; align-items: center; gap: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 16px; width: 100%; text-align: left;}.ds-route-preview:hover{background: var(--tint);}.ds-route-preview-visual{display: flex; align-items: center; gap: 5px; width: 82px; min-height: 48px;}.ds-route-preview-visual svg{width: 82px; height: 48px;}.ds-route-preview-copy{flex: 1; min-width: 130px;}.ds-route-preview-copy strong{display: block; font-size: .875rem; font-weight: 600;}.ds-route-preview-copy > span{display: block; font-size: .75rem; color: var(--muted); margin-top: 5px;}.ds-route-preview-chevron{flex-shrink: 0; color: var(--muted);}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}",
+      "refersTo": "route-preview"
     },
     {
-      "name": "Confirmation destructive",
-      "kind": "button",
-      "refersTo": "button-danger",
-      "description": "Supprimer",
-      "html": "<button class=\"ds-danger\">Supprimer</button>",
-      "css": ".ds-danger{border:1px solid transparent;border-radius:7px;padding:10px 13px;min-height:44px;font:700 15px Manrope,sans-serif;transition:background-color 150ms ease-out;background:var(--color-error);color:#50130c;}.ds-danger:focus-visible{outline:3px solid var(--color-brand--1);outline-offset:3px}"
+      "name": "Ligne de séance",
+      "kind": "custom",
+      "html": "<div class=\"ds-component\"><div class=\"ds-workout\"><button type=\"button\" class=\"ds-workout-button\"><span><span class=\"ds-workout-name\">Nom de la séance</span><span class=\"ds-workout-date\">Date de la séance</span></span></button></div></div>",
+      "css": ":host{font-family:-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;line-height:1.45;color:var(--ink)}.ds-component button,.ds-component input{font:inherit;color:inherit;min-height:44px}.ds-component button{cursor:pointer;touch-action:manipulation}.ds-component button:disabled{opacity:.45;cursor:not-allowed}.ds-component :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.ds-component button:active:not(:disabled){transform:translateY(1px)}.ds-workout{border-bottom: 1px solid var(--line);}.ds-workout-button{display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 9px 14px; width: 100%; text-align: left; padding: 20px 0; background: none; border: 0;}.ds-workout-button:hover{background: #f5f8f3;}.ds-workout-name{display: block; font-weight: 600; font-size: 1.05rem; overflow-wrap: anywhere;}.ds-workout-date{display: block; font-size: .8125rem; color: var(--muted); margin-top: 5px;}@media(prefers-reduced-motion:reduce){.ds-component *{transition:none!important}.ds-component button:active:not(:disabled){transform:none}}"
     }
   ],
   "narrative": {
-    "northStar": "Un journal sportif clair, fidèle à Mapty.",
-    "overview": "L’identité est conservée : logo Mapty, Manrope, surfaces anthracite, vert pour\nla course et ambre pour le vélo. Le journal sert à enregistrer une séance,\nla retrouver et comprendre son bilan.",
-    "keyCharacteristics": [],
+    "northStar": "Un carnet de sorties et une carte qui servent une tâche à la fois.",
+    "overview": "Un carnet de sorties et une carte qui servent une tâche à la fois. L’interface claire emploie la police système, une encre sombre et un vert forêt pour les actions et les trajets. La direction anthracite/Manrope a été remplacée explicitement.\n\nMode Operate ; ENERGY 1 / RHYTHM 2 / MOTION 1. Les variations de composition répondent aux tâches et aux dimensions disponibles. Le contenu réel, la carte utilitaire et les lignes du journal portent l’identité ; le mouvement reste un retour d’action.",
+    "keyCharacteristics": [
+      "Palette claire et un accent vert de fonction.",
+      "Police système, métriques à chiffres tabulaires.",
+      "Téléphone, tablette et bureau disposent de compositions distinctes.",
+      "Motif A/B et aperçus SVG issus de la géométrie enregistrée."
+    ],
     "rules": [],
     "dos": [
-      "Préserver le logo, la typographie et la correspondance des couleurs avec les sports.",
-      "Afficher les erreurs et les restrictions de sauvegarde près des actions.",
-      "Conserver l’accès au journal sans localisation et sans fond de carte."
+      "Do partir du contenu réel.",
+      "Do garder A/B et le sport explicites.",
+      "Do conserver erreurs, commandes de zoom et attributions visibles.",
+      "Do employer des SVG pour le chevron et l’inversion A/B."
     ],
     "donts": [
-      "Ne pas ajouter de framework, de page marketing ou de fonctions sociales.",
-      "Ne pas prétendre enregistrer un trajet GPS ni synchroniser les données."
+      "Don’t compresser le bureau sur téléphone.",
+      "Don’t inventer un trajet en cas d’échec.",
+      "Don’t présenter le parcours planifié comme du GPS enregistré.",
+      "Don’t réintroduire la direction anthracite/Manrope."
     ]
   }
 }

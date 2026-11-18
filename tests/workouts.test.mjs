@@ -66,7 +66,7 @@ test('un fichier invalide est rejeté en entier avant toute fusion', () => {
   ]) {
     assert.throws(() => readWorkouts([record, { ...record, id: 'other', ...patch }]));
   }
-  assert.throws(() => readWorkouts({ version: 2, workouts: [] }));
+  assert.throws(() => readWorkouts({ version: 3, workouts: [] }));
   assert.throws(() => readWorkouts([record, record]), /identifiant/);
   assert.throws(() => readWorkouts(Array(10001).fill(record)), /10 000/);
 });

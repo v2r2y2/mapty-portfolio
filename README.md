@@ -1,9 +1,9 @@
-# Mapty — mon journal sportif
+# Mapty · Carnet de sorties
 
-Journal personnel de courses à pied et de sorties vélo, développé à partir de
-Mapty de **Jonas Schmedtmann**. La base HTML, CSS, JavaScript et Leaflet est conservée,
-ainsi que les modèles `Workout`, `Running`, `Cycling` et la classe `App`.
-**Aucun framework, gestionnaire de dépendances ou outil de compilation.**
+Journal personnel adapté de **Mapty, de Jonas Schmedtmann**. HTML, CSS,
+JavaScript natif et Leaflet 1.6.0 conservés, avec les modèles `Workout`,
+`Running`, `Cycling` et la classe `App`. Aucun framework, installation npm,
+clé API ou compilation.
 
 ## Démarrer sur ce Mac
 
@@ -12,92 +12,111 @@ cd /Users/marcbookairm1/Documents/PROJETS_JS/mapty-portfolio
 python3 -m http.server 8080 --bind 127.0.0.1
 ```
 
-Ouvrir <http://127.0.0.1:8080>. Pour arrêter le serveur : `Ctrl+C`.
-Si un serveur fonctionne déjà sur ce port, ouvrir simplement l’adresse existante.
-Le serveur local doit rester limité au projet : ne pas le lancer dans le dossier du cours.
+Ouvrir <http://127.0.0.1:8080>. Si le serveur fonctionne déjà, ouvrir simplement
+l’adresse. `Ctrl+C` l’arrête. Ne pas lancer le serveur depuis le cours original.
 
-## Utiliser le journal
+## Utiliser le carnet
 
-- Cliquer sur **Nouvelle séance**, **Ajouter ici**, ou sur un point de la carte.
-- Saisir le sport, la date, la distance et la durée ; ajouter la cadence pour
-  une course ou le dénivelé pour une sortie vélo. Les décimales avec une virgule
-  ou un point sont acceptées. Le dénivelé peut être nul ou négatif.
-- Enregistrer avec le bouton visible. Modifier ou supprimer une séance depuis
-  sa fiche. Une suppression demande confirmation.
-- Le bilan de **cette semaine** couvre le lundi au dimanche, tous sports confondus.
-  Les filtres de la liste ne changent pas ce bilan. La liste et les marqueurs
-  utilisent les mêmes filtres de sport et de période.
-- **Voir sur la carte** ouvre le marqueur. Le journal associe un lieu à une
-  séance ; il n’enregistre pas le trajet GPS.
-- Sur téléphone, le journal et la carte se suivent. Le lien du formulaire
-  permet d’aller à la carte ; **Choisir ce lieu** utilise son centre. Le clavier
-  permet aussi de déplacer la carte puis d’utiliser ce bouton.
+1. **Ajouter une séance** ouvre un écran dédié. Choisir sport, date, distance et
+   durée. Nom, cadence et dénivelé sont facultatifs. Virgule et point décimaux
+   sont acceptés ; le dénivelé peut être négatif.
+2. Facultativement, **Définir un départ et une arrivée** ouvre la carte. Toucher
+   A puis B. Les boutons Départ/Arrivée permettent de reprendre un point ; les
+   marqueurs sont déplaçables. Au clavier, déplacer la carte avec les flèches,
+   puis **Placer au centre de la carte** pour chacun des points.
+3. **Calculer le trajet** demande un itinéraire par les rues et chemins, à pied
+   ou à vélo selon le sport. Vérifier le tracé puis **Utiliser ce trajet**.
+   La distance est renseignée mais reste ajustable.
+4. **Enregistrer la séance** ouvre sa fiche, avec consultation du trajet,
+   modification et suppression confirmée.
 
-## Chargement et localisation
+Inverser A/B ou changer le sport demande un nouveau calcul. Un échec ne crée
+jamais de ligne droite de remplacement. Revenir à la saisie sans accepter un
+nouveau trajet conserve le précédent. Le parcours planifié ne représente pas
+un enregistrement GPS effectué en direct.
 
-Leaflet **1.6.0**, ses images et la police Manrope sont distribués localement dans
-`vendor/`. Leur version d’origine est conservée ; aucune mise à niveau n’est faite.
-La carte démarre sans demander la position : dernière vue mémorisée, sinon Abidjan.
-**Me localiser** est facultatif. Le délai d’acquisition est limité à 7 secondes,
-avec un délai applicatif de 9 secondes couvrant aussi une permission sans réponse.
-Un échec de localisation ne bloque jamais le journal.
+Le bilan couvre le lundi au dimanche. Filtres et tri concernent le journal ;
+la carte affiche tous les lieux enregistrés et souligne la séance ouverte.
+Une séance peut rester sans lieu. Les anciens points uniques sont conservés.
 
-Internet reste nécessaire pour les fonds de carte OpenStreetMap France.
-Les échecs de tuiles sont signalés avec une action pour réessayer. Le journal,
-les formulaires, l’import et l’export restent accessibles sans fond de carte.
+## Interface et chargement
 
-## Sauvegardes et compatibilité
+Téléphone : Journal, Carte, Saisie et Fiche sont des écrans séparés. Navigation
+en bas, masquée pendant la saisie et le choix A/B. Le formulaire défile
+indépendamment de son bouton d’enregistrement. Tablette : lecture et saisie
+centrées avec largeur limitée. Dès 1 050 px : journal et carte en parallèle ;
+choix A/B sur toute la largeur. Police système, sans téléchargement de police.
 
-Les séances restent dans le stockage local du navigateur, clé `workouts`, pour
-cette adresse et ce port. Elles ne sont ni synchronisées ni envoyées vers un serveur.
-Le passage entre `localhost` et `127.0.0.1`, ou le changement de port/navigateur,
-donne accès à un autre stockage : utiliser l’export pour transférer le journal.
+Le journal mobile ne demande ni carte ni géolocalisation au démarrage. La carte
+est créée à sa première ouverture, ou immédiatement sur grand écran. Dernière
+vue mémorisée, sinon Abidjan. **Me localiser** est facultatif : délai de 7 secondes
+et limite applicative de 9 secondes couvrant une permission sans réponse.
 
-Les anciennes sauvegardes du cours sont relues automatiquement : identifiants,
-coordonnées, dates et valeurs sont conservés, les descriptions sont recalculées en français.
-Un historique illisible est conservé sans écrasement. L’interface permet de le
-récupérer brut avant une réinitialisation explicitement confirmée.
-Si le stockage est inaccessible ou plein, les changements restent dans l’onglet
-et un message demande d’exporter avant de le fermer.
+## Services et confidentialité
 
-**Exporter** télécharge un fichier JSON versionné. **Importer** accepte ce format
-ou un tableau de séances de l’ancienne version. L’import fusionne les séances :
-un identifiant déjà présent conserve sa version locale. Un fichier mal formé
-est rejeté intégralement. Limites : 10 Mo par fichier, 10 000 séances au total.
+Leaflet et sa licence sont locaux. Internet sert aux tuiles OpenStreetMap France
+et au calcul public [FOSSGIS / OSRM](https://routing.openstreetmap.de/about.html).
+Profils à pied et à vélo, sans clé API. Calculs volontaires, espacés d’au moins
+1,1 seconde, annulables, avec délai de 15 secondes. Aucun calcul en arrière-plan.
+
+Les coordonnées A/B sont envoyées au fournisseur pour le calcul. Celui-ci reçoit
+aussi les informations normales d’une requête web, comme l’adresse IP. Nom,
+durée, cadence et journal ne sont pas envoyés. La géométrie reçue est conservée
+dans la séance et réutilisée sans recalcul. Les tuiles de la vue affichée sont
+mises en cache par le navigateur. Aucun téléchargement de carte hors ligne.
+
+Ces services communautaires peuvent être indisponibles, sans garantie de
+service. Les erreurs et nouvelles tentatives sont explicites. Le carnet et la
+saisie libre restent accessibles sans fond de carte. Attributions, fournisseur
+et lien de correction de la carte sont visibles.
+
+## Sauvegardes
+
+Stockage local, clé `workouts`, propre à l’adresse et au port. Passer de
+`127.0.0.1` à `localhost` ou changer de navigateur utilise un autre stockage.
+Exporter pour transférer les séances ou prévenir un effacement. Pas de compte
+ni de synchronisation.
+
+Export JSON version 2 avec les trajets. Import : version 2, version 1 et tableaux
+du cours. Les identifiants existants gardent leur version locale. Un fichier
+invalide est rejeté en entier. Limites : 20 Mo, 10 000 séances, 20 000 points par trajet.
+
+Un historique illisible reste intact et peut être récupéré brut avant une
+réinitialisation confirmée. Si le stockage échoue, les changements restent dans
+l’onglet, avec un message demandant d’exporter avant de fermer.
 
 ## Vérifier la logique
 
-Avec Node.js déjà installé sur ce Mac, sans installation :
-
 ```sh
-node --test tests/workouts.test.mjs
+node --test tests/*.test.mjs
 ```
 
-Les tests couvrent calculs, décimales françaises, dates, anciens historiques,
-validation des imports, fusion, bilans hebdomadaires et filtres.
-Les modules JavaScript natifs servent à isoler cette logique testable ; il n’y
-a aucune étape de compilation.
+Tests natifs Node.js sans installation : calculs, dates, décimales françaises,
+anciens historiques, imports, filtres, profils A/B, géométrie, annulation et réseau.
+Voir `VERIFICATION.md` pour les essais navigateur et leurs limites.
 
 ## Crédits et conditions d’origine
 
-Application originale **Mapty © Jonas Schmedtmann**,
-issue de `complete-javascript-course-master/15-Mapty/final`.
-Le cours original n’est pas modifié. `COURSE_README.md` conserve sa documentation.
-Les ajouts personnels sont la francisation, la saisie datée, la gestion des séances,
-les bilans, filtres, sauvegardes et l’adaptation responsive.
+Base **Mapty © Jonas Schmedtmann**, issue de
+`complete-javascript-course-master/15-Mapty/final`. Le cours reste intact.
+`COURSE_README.md` conserve la documentation fournie.
 
-Le dossier du cours fourni ne contient aucun fichier LICENSE séparé.
-Aucune nouvelle licence n’est attribuée au code original. La mention d’origine
-est conservée dans l’interface, son code source et ici :
+Contributions personnelles : français, composition mobile dédiée, journal daté,
+gestion des séances, bilans, filtres, sauvegardes, calcul A/B, conservation du
+tracé et gestion des erreurs.
+
+Le dossier fourni ne contient pas de LICENSE séparé. Aucune nouvelle licence
+n’est attribuée au code original. Sa mention est conservée dans le code,
+l’interface et ici :
 
 > Use for learning or your portfolio. Don't use to teach. Don't claim as your own.
 
-Voir aussi la FAQ Q8 dans `COURSE_README.md`.
+Voir la FAQ Q8 dans `COURSE_README.md`. Présenter le travail comme une adaptation
+personnelle en distinguant ses propres contributions.
 
-- Leaflet : Copyright Vladimir Agafonkin et contributeurs, licence BSD-2-Clause
-  conservée dans `vendor/leaflet/LICENSE`.
-- Manrope : licence SIL Open Font License, conservée dans `vendor/fonts/OFL.txt`.
-- Fonds de carte : contributeurs OpenStreetMap, tuiles OpenStreetMap France ;
-  attribution visible sur la carte.
+- Leaflet : BSD-2-Clause, licence inchangée dans `vendor/leaflet/LICENSE`.
+- Manrope, plus chargée par cette version : licence conservée dans `vendor/fonts/OFL.txt`.
+- Carte : contributeurs OpenStreetMap, tuiles OpenStreetMap France.
+- Itinéraires : FOSSGIS / OSRM, données OpenStreetMap.
 
-Le dépôt reste local. Aucun dépôt GitHub, push ou hébergement n’est créé.
+Le dépôt reste local. Aucun push, dépôt GitHub ou hébergement.

@@ -35,11 +35,13 @@ export function parseNumber(value) {
 
 export class Workout {
   constructor(coords, distance, duration, options = {}) {
-    this.coords = [...coords];
+    this.coords = coords ? [...coords] : null;
     this.distance = distance;
     this.duration = duration;
     this.date = options.date || new Date();
     this.id = options.id || crypto.randomUUID();
+    this.title = options.title || '';
+    this.route = options.route || null;
   }
 
   _setDescription() {
@@ -52,7 +54,7 @@ export class Running extends Workout {
 
   constructor(coords, distance, duration, cadence, options) {
     super(coords, distance, duration, options);
-    this.cadence = cadence;
+    this.cadence = cadence ?? null;
     this.calcPace();
     this._setDescription();
   }
@@ -68,7 +70,7 @@ export class Cycling extends Workout {
 
   constructor(coords, distance, duration, elevationGain, options) {
     super(coords, distance, duration, options);
-    this.elevationGain = elevationGain;
+    this.elevationGain = elevationGain ?? null;
     this.calcSpeed();
     this._setDescription();
   }
@@ -77,6 +79,24 @@ export class Cycling extends Workout {
     this.speed = this.distance / (this.duration / 60);
     return this.speed;
   }
+}
+
+export function validCoords(coords) {
+  return Array.isArray(coords) && coords.length === 2 && coords.every(Number.isFinite) &&
+    Math.abs(coords[0]) <= 90 && Math.abs(coords[1]) <= 180;
+}
+
+export function restoreRoute(route) {
+  if (route === undefined || route === null) return null;
+  if (!route || !validCoords(route.start) || !validCoords(route.end) ||
+    !['foot', 'bike'].includes(route.profile) || !Number.isFinite(route.distance) || route.distance <= 0 ||
+    !Array.isArray(route.coordinates) || route.coordinates.length < 2 || route.coordinates.length > 20000 ||
+    !route.coordinates.every(point => Array.isArray(point) && point.length === 2 && validCoords([point[1], point[0]]))) {
+    throw new Error('Un trajet contient des coordonnées ou une distance invalides.');
+  }
+  const label = value => typeof value === 'string' ? value.slice(0, 120) : '';
+  return { start: [...route.start], end: [...route.end], coordinates: route.coordinates.map(point => [...point]),
+    distance: route.distance, profile: route.profile, startLabel: label(route.startLabel), endLabel: label(route.endLabel), provider: 'FOSSGIS / OSRM' };
 }
 
 export function restoreWorkout(record) {
@@ -89,8 +109,7 @@ export function restoreWorkout(record) {
     throw new Error('Une séance possède un identifiant invalide.');
   }
   if (!Object.hasOwn(SPORT_LABELS, type)) throw new Error('Sport inconnu dans le fichier.');
-  if (!Array.isArray(coords) || coords.length !== 2 ||
-    !coords.every(Number.isFinite) || Math.abs(coords[0]) > 90 || Math.abs(coords[1]) > 180) {
+  if (coords != null && !validCoords(coords)) {
     throw new Error('Les coordonnées d’une séance sont invalides.');
   }
   if (![distance, duration].every(value => Number.isFinite(value) && value > 0)) {
@@ -99,17 +118,23 @@ export function restoreWorkout(record) {
   if (!date || dateInputValue(date) > dateInputValue()) {
     throw new Error('La date d’une séance est invalide ou située dans le futur.');
   }
-  const options = { id, date };
+  if (record.title != null && (typeof record.title !== 'string' || record.title.length > 80)) {
+    throw new Error('Le nom d’une séance est invalide.');
+  }
+  const route = restoreRoute(record.route);
+  if (route && route.profile !== (type === 'cycling' ? 'bike' : 'foot')) throw new Error('Le trajet ne correspond pas au sport de la séance.');
+  const options = { id, date, title: record.title?.trim() || '', route };
+  const location = route?.start || coords || null;
   if (type === 'running') {
-    if (!Number.isFinite(record.cadence) || record.cadence <= 0) {
+    if (record.cadence != null && (!Number.isFinite(record.cadence) || record.cadence <= 0)) {
       throw new Error('La cadence doit être supérieure à zéro.');
     }
-    const workout = new Running(coords, distance, duration, record.cadence, options);
+    const workout = new Running(location, distance, duration, record.cadence, options);
     if (!Number.isFinite(workout.pace)) throw new Error('Les valeurs de la séance sont trop grandes ou trop petites.');
     return workout;
   }
-  if (!Number.isFinite(record.elevationGain)) throw new Error('Le dénivelé est invalide.');
-  const workout = new Cycling(coords, distance, duration, record.elevationGain, options);
+  if (record.elevationGain != null && !Number.isFinite(record.elevationGain)) throw new Error('Le dénivelé est invalide.');
+  const workout = new Cycling(location, distance, duration, record.elevationGain, options);
   if (!Number.isFinite(workout.speed)) throw new Error('Les valeurs de la séance sont trop grandes ou trop petites.');
   return workout;
 }
@@ -117,7 +142,7 @@ export function restoreWorkout(record) {
 export function readWorkouts(payload) {
   let records;
   if (Array.isArray(payload)) records = payload; // Sauvegardes de la version du cours.
-  else if (payload && payload.version === 1 && Array.isArray(payload.workouts)) {
+  else if (payload && [1, 2].includes(payload.version) && Array.isArray(payload.workouts)) {
     records = payload.workouts;
   } else throw new Error('Ce fichier n’est pas une sauvegarde Mapty reconnue.');
   if (records.length > 10000) throw new Error('La sauvegarde dépasse 10 000 séances.');
