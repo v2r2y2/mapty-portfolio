@@ -12,6 +12,7 @@ colors:
   tint: "#e8eee7"
   danger: "#a32d27"
   focus: "#98500e"
+  position: "#1769d2"
   control-border: "#aeb7af"
 typography:
   headline:
@@ -118,6 +119,14 @@ Les couleurs fonctionnelles `danger` et `focus` servent respectivement les erreu
 et actions destructives, et l’anneau de focus visible. Les notifications de stockage
 emploient en complément un fond ambre clair et une encre brune, sans changer
 l’accent principal.
+
+`position` (`#1769d2`) distingue le relevé géographique des trajets verts et des
+repères A/B. Un point bleu bordé de blanc reste visible sur la carte ; le cercle
+bleu translucide montre la précision annoncée, sans animation décorative. Le
+texte donne l’heure et la précision sans dépendre uniquement de la couleur.
+Les messages de chargement et de position s’empilent avec 8 px de séparation.
+Pendant le choix A/B sur petit écran, leur zone défile pour ne pas recouvrir
+le panneau de trajet.
 
 ## Typography
 

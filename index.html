@@ -7,9 +7,9 @@
     <meta name="description" content="Un journal de course à pied et de vélo, avec vos séances et leurs itinéraires." />
     <link rel="icon" href="./icon.png" />
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
-    <link rel="stylesheet" href="style.css?v=carnet-3" />
+    <link rel="stylesheet" href="style.css?v=carte-4" />
     <script defer src="vendor/leaflet/leaflet.js"></script>
-    <script type="module" src="script.js?v=carnet-3"></script>
+    <script type="module" src="script.js?v=carte-4"></script>
     <title>Mapty · Journal sportif</title>
   </head>
   <body data-view="journal">
@@ -84,8 +84,7 @@
       <section class="map-panel" id="map-view" aria-label="Carte des itinéraires">
         <div id="map" role="region" aria-label="Carte. Utilisez les flèches pour déplacer la vue." tabindex="0"></div>
         <div class="map-topbar"><p id="map-heading">Les lieux de vos séances</p><button type="button" class="button map-button" id="locate-me">Me localiser</button></div>
-        <div class="map-status" id="map-status" role="status"><span id="map-status-text">Chargement de la carte…</span><button type="button" class="text-button" id="retry-map" hidden>Réessayer</button></div>
-        <p class="location-status" id="location-status" role="status" hidden></p>
+        <div class="map-feedback"><div class="map-status" id="map-status" role="status"><span id="map-status-text">Chargement de la carte…</span><div class="map-recovery"><button type="button" class="text-button" id="retry-map" hidden>Réessayer</button><button type="button" class="text-button" id="switch-map" hidden>Changer de fond</button></div></div><p class="location-status" id="location-status" role="status" hidden></p></div>
         <div class="map-selection" id="map-selection" hidden><span id="map-selection-title"></span><button type="button" class="text-button" id="selected-map-back">Voir la séance</button></div>
         <section class="route-builder" id="route-builder" aria-label="Choisir un trajet" hidden>
           <div class="builder-heading"><button type="button" class="back-button" id="cancel-route">Retour à la séance</button><label class="sr-only" for="route-sport">Sport du trajet</label><select id="route-sport"><option value="running">Course à pied</option><option value="cycling">Vélo</option></select></div>

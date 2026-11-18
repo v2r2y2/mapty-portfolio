@@ -129,8 +129,9 @@ input[aria-invalid='true'] { border-color: var(--danger); }
 .map-topbar p { background: var(--surface); padding: 11px 15px; border-radius: 8px; font-size: .8125rem; font-weight: 550; box-shadow: 0 3px 12px #20292318; }
 .map-button { pointer-events: auto; background: var(--surface); color: var(--ink); box-shadow: 0 3px 12px #20292318; font-size: .8125rem; padding: 11px 13px; white-space: nowrap; }
 .map-button:hover { background: var(--tint); }
-.map-status, .location-status { position: absolute; z-index: 510; top: 76px; left: 76px; right: 16px; padding: 10px 14px; border-radius: 7px; background: var(--surface); font-size: .8125rem; max-width: 440px; box-shadow: 0 3px 12px #20292318; }
-.location-status { top: 118px; }
+.map-feedback { position: absolute; z-index: 510; top: 76px; left: 76px; right: 16px; max-width: 440px; display: grid; gap: 8px; pointer-events: none; }
+.map-status, .location-status { padding: 10px 14px; border-radius: 7px; background: var(--surface); font-size: .8125rem; box-shadow: 0 3px 12px #20292318; pointer-events: auto; }
+.map-recovery { display: flex; flex-wrap: wrap; gap: 8px; }
 .map-selection { position: absolute; z-index: 500; bottom: 44px; left: 16px; right: 16px; padding: 14px 18px; background: var(--surface); border-radius: 10px; box-shadow: 0 4px 18px #2029231a; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .875rem; }
 .route-builder { position: absolute; z-index: 520; bottom: 44px; left: 12px; right: 12px; padding: 12px 16px 14px; border-radius: 14px; background: var(--surface); box-shadow: 0 5px 22px #20292329; max-height: 56%; overflow-y: auto; }
 .builder-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
@@ -198,6 +199,14 @@ body[data-view='map'] .journal-panel { display: none; }
 body[data-view='map'] .map-panel { display: block; }
 body[data-view='editor'] .journal-screen, body[data-view='detail'] .journal-screen { display: none; }
 body[data-editing='true'] .mobile-nav { display: none; }
+
+@media (max-width: 1049px) {
+  body[data-editing='true'][data-view='map'] .map-feedback {
+    max-height: max(44px, calc(44% - 128px));
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+}
 
 @media (min-width: 650px) and (max-width: 1049px) {
   .screen:not(.editor-screen) { padding-inline: max(32px,calc((100vw - 620px)/2)); }

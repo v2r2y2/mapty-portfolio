@@ -79,3 +79,27 @@ aucun débordement, ajout/rechargement/suppression d’une séance temporaire et
 ouverture du choix A/B. Zéro exception applicative, journal de test revenu à
 son état initial. Les sources applicatives copiées sont identiques à celles
 des essais complets.
+
+## Correction du fond de carte et repère de position
+
+Le 18 novembre, même vue Chromium 1440×900 et vingt images : le fond HOT France
+n’avait chargé que 8 images après environ 57 secondes (images terminées entre
+19 et 52 secondes). Le fond standard OpenStreetMap a chargé 20/20 images en
+3,95 secondes dans l’essai suivant. Comparaison ponctuelle, pas un benchmark
+répété ni une garantie de disponibilité. Aucun préchargement ou cache forcé.
+
+Repère bleu et cercle de précision contrôlés sur bureau et mobile, avec des
+coordonnées publiques simulées à Abidjan. Aucun usage de la position réelle de
+l’utilisateur. Contrôles : absence d’appel automatique, demande de position
+fraîche, précision 25 m et position approximative à 5 km, précision absente,
+refus, délai de neuf secondes et réponse arrivée trop tard.
+
+Le point reste indépendant de A/B, de l’effacement et de la saisie d’un trajet.
+Une nouvelle demande remplace le repère, sans doublon. Un échec retire l’ancien
+repère afin de ne pas le présenter comme une nouvelle position. Pas de suivi
+continu. Les tuiles d’erreur et le secours manuel ont été simulés ensuite pour
+éviter les requêtes répétées aux services publics ; attributions et couche
+unique vérifiées. Zéro exception applicative dans ce parcours.
+
+La localisation réelle et les appareils physiques restent à valider par le
+propriétaire ; les captures de position sont des démonstrations de test.

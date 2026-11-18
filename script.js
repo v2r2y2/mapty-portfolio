@@ -7,6 +7,12 @@ import { calculateRoute } from './routing.mjs';
 const $ = selector => document.querySelector(selector);
 const all = selector => [...document.querySelectorAll(selector)];
 const DEFAULT_COORDS = [5.3484, -4.0305];
+const TILE_PROVIDERS = [
+  { name: 'OpenStreetMap', url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributeurs' },
+  { name: 'OpenStreetMap France', url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, tuiles <a href="https://www.openstreetmap.fr/">OSM France</a>' },
+];
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const coordinatesLabel = point => point ? `${point[0].toFixed(4)}, ${point[1].toFixed(4)}` : '';
@@ -104,6 +110,7 @@ class App {
     $('#accept-route').addEventListener('click', () => this.acceptRoute());
     $('#locate-me').addEventListener('click', () => this.locate());
     $('#retry-map').addEventListener('click', () => this.tiles ? this.tiles.redraw() : this.ensureMap());
+    $('#switch-map').addEventListener('click', () => this.setTileProvider((this.tileProvider + 1) % TILE_PROVIDERS.length));
     $('#export-workouts').addEventListener('click', () => {
       this.download(JSON.stringify({ version: 2, exportedAt: new Date().toISOString(), workouts: this.workouts }, null, 2), `mapty-${dateInputValue()}.json`);
       $('#tools-menu').open = false; this.announce('Sauvegarde exportée.');
@@ -276,16 +283,9 @@ class App {
       L.control.zoom({ zoomInTitle: 'Zoom avant', zoomOutTitle: 'Zoom arrière' }).addTo(this.map);
       all('.leaflet-control-zoom a').forEach(control => control.setAttribute('aria-label', control.title));
       this.layers = L.layerGroup().addTo(this.map);
-      this.tiles = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-        maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, tuiles <a href="https://www.openstreetmap.fr/">OSM France</a> · Trajets <a href="https://routing.openstreetmap.de/about.html">FOSSGIS / OSRM</a> · <a href="https://www.openstreetmap.org/fixthemap">Corriger la carte</a>',
-      });
-      this.tiles.on('loading', () => {
-        this.tileFailed = false; this.mapStatus('Chargement du fond de carte…');
-        clearTimeout(this.tileTimer); this.tileTimer = setTimeout(() => this.mapStatus('Le fond de carte tarde à répondre. Vérifiez votre connexion.', true), 8000);
-      });
-      this.tiles.on('tileerror', () => { this.tileFailed = true; });
-      this.tiles.on('load', () => { clearTimeout(this.tileTimer); if (this.tileFailed) this.mapStatus('Une partie du fond de carte est indisponible. Le journal reste accessible.', true); else $('#map-status').hidden = true; });
-      this.tiles.addTo(this.map);
+      this.map.createPane('positionPane').style.zIndex = 650;
+      this.positionLayers = L.layerGroup().addTo(this.map);
+      this.setTileProvider(0);
       this.map.on('click', event => { if (this.builder) { const point = event.latlng.wrap(); this.setPoint([point.lat, point.lng]); } });
       this.map.on('moveend', () => {
         const point = this.map.getCenter().wrap();
@@ -295,7 +295,43 @@ class App {
     } catch { this.mapStatus('La carte n’a pas pu démarrer. Votre journal reste accessible.', true); }
   }
 
-  mapStatus(message, retry = false) { $('#map-status').hidden = false; $('#map-status-text').textContent = message; $('#retry-map').hidden = !retry; }
+  setTileProvider(index) {
+    if (!this.map) return;
+    clearTimeout(this.tileTimer);
+    if (this.tiles) { this.tiles.off(); this.map.removeLayer(this.tiles); }
+    this.tileProvider = index;
+    const provider = TILE_PROVIDERS[index];
+    const layer = L.tileLayer(provider.url, {
+      maxZoom: 19, updateWhenIdle: true, updateWhenZooming: false,
+      attribution: `${provider.attribution} · Trajets <a href="https://routing.openstreetmap.de/about.html">FOSSGIS / OSRM</a> · <a href="https://www.openstreetmap.org/fixthemap">Corriger la carte</a>`,
+    });
+    this.tiles = layer;
+    layer.on('loading', () => {
+      this.tileFailed = this.tileSlow = false;
+      this.mapStatus(`Chargement du fond ${provider.name}…`);
+      clearTimeout(this.tileTimer);
+      this.tileTimer = setTimeout(() => {
+        this.tileSlow = true;
+        this.mapStatus(`${provider.name} tarde à répondre. Réessayez ou changez de fond.`, true);
+      }, 8000);
+    });
+    layer.on('tileload', () => {
+      if (!this.tileSlow && !this.tileFailed) this.mapStatus('La carte s’affiche progressivement…');
+    });
+    layer.on('tileerror', () => { this.tileFailed = true; });
+    layer.on('load', () => {
+      clearTimeout(this.tileTimer);
+      if (this.tileFailed) this.mapStatus('Une partie de la carte est indisponible. Réessayez ou changez de fond.', true);
+      else $('#map-status').hidden = true;
+    });
+    layer.addTo(this.map);
+  }
+
+  mapStatus(message, retry = false) {
+    $('#map-status').hidden = false; $('#map-status-text').textContent = message;
+    $('#retry-map').hidden = !retry;
+    $('#switch-map').hidden = !retry || !this.map;
+  }
 
   pin(point, letter, draggable = false, onMove = null) {
     const marker = L.marker(point, { draggable, title: letter === 'A' ? 'Départ A' : 'Arrivée B', alt: letter === 'A' ? 'Départ A' : 'Arrivée B',
@@ -408,14 +444,31 @@ class App {
   }
 
   locate() {
+    if (!this.map) return this.locationMessage('La carte est indisponible. Réessayez son chargement avant de vous localiser.');
     if (!navigator.geolocation) return this.locationMessage('La localisation est indisponible. Choisissez les points sur la carte.');
+    this.positionLayers.clearLayers();
+    this.locationMessage('Recherche de votre position…');
     $('#locate-me').disabled = true; $('#locate-me').textContent = 'Localisation…';
     let finished = false;
     const finish = message => { if (finished) return false; finished = true; clearTimeout(timer); $('#locate-me').disabled = false; $('#locate-me').textContent = 'Me localiser'; this.locationMessage(message); return true; };
     const timer = setTimeout(() => finish('Localisation trop longue. Choisissez les points sur la carte ou réessayez.'), 9000);
     navigator.geolocation.getCurrentPosition(position => {
-      if (finish('Carte centrée sur votre position. Choisissez vos points sur la carte.')) this.map?.setView([position.coords.latitude, position.coords.longitude], 14);
-    }, error => finish(error.code === 1 ? 'Localisation refusée. Choisissez les points sur la carte.' : 'Position indisponible. Réessayez ou choisissez les points sur la carte.'), { timeout: 7000, maximumAge: 60000, enableHighAccuracy: false });
+      const coords = [position.coords.latitude, position.coords.longitude];
+      if (!validCoords(coords)) return finish('Position reçue invalide. Réessayez ou choisissez les points sur la carte.');
+      const accuracy = position.coords.accuracy;
+      const hasAccuracy = Number.isFinite(accuracy) && accuracy > 0;
+      const precision = hasAccuracy ? `Précision estimée : ${accuracy >= 1000 ? `${nf.format(accuracy / 1000)} km` : `${Math.max(1, Math.round(accuracy))} m`}.` : 'Précision non communiquée.';
+      const time = Number.isFinite(position.timestamp) ? ` à ${new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(position.timestamp)}` : '';
+      if (!finish(`Point bleu : position relevée${time}. ${precision} Actualisez si vous vous déplacez.`)) return;
+      if (hasAccuracy) {
+        const circle = L.circle(coords, { radius: accuracy, pane: 'positionPane', className: 'position-accuracy',
+          color: '#1769d2', weight: 1, opacity: .4, fillColor: '#1769d2', fillOpacity: .12, interactive: false }).addTo(this.positionLayers);
+        const bottom = this.builder ? Math.min($('#route-builder').getBoundingClientRect().height + 60, this.map.getSize().y * .55) : 70;
+        this.map.fitBounds(circle.getBounds(), { maxZoom: 16, paddingTopLeft: [60, 150], paddingBottomRight: [40, bottom], animate: false });
+      } else this.map.setView(coords, 14, { animate: false });
+      L.circleMarker(coords, { radius: 8, pane: 'positionPane', className: 'current-position-dot',
+        color: '#ffffff', weight: 3, fillColor: '#1769d2', fillOpacity: 1, interactive: false }).addTo(this.positionLayers);
+    }, error => finish(error.code === 1 ? 'Localisation refusée. Choisissez les points sur la carte.' : 'Position indisponible. Réessayez ou choisissez les points sur la carte.'), { timeout: 7000, maximumAge: 0, enableHighAccuracy: true });
   }
   locationMessage(message) { $('#location-status').textContent = message; $('#location-status').hidden = false; }
 

@@ -51,11 +51,24 @@ Le journal mobile ne demande ni carte ni géolocalisation au démarrage. La cart
 est créée à sa première ouverture, ou immédiatement sur grand écran. Dernière
 vue mémorisée, sinon Abidjan. **Me localiser** est facultatif : délai de 7 secondes
 et limite applicative de 9 secondes couvrant une permission sans réponse.
+Le bouton demande une position fraîche et précise, puis affiche un point bleu
+et un cercle représentant la précision annoncée par le navigateur. Une position
+approximative entraîne un cadrage plus large. Le repère reste distinct des points
+A/B et ne crée aucune séance. Il est actualisé à chaque clic, sans suivi continu.
+L’heure du relevé est affichée lorsqu’elle est fournie. La dernière vue de carte
+reste mémorisée comme avant ; le repère lui-même reste dans l’onglet.
 
 ## Services et confidentialité
 
-Leaflet et sa licence sont locaux. Internet sert aux tuiles OpenStreetMap France
+Leaflet et sa licence sont locaux. Internet sert aux tuiles OpenStreetMap standard
 et au calcul public [FOSSGIS / OSRM](https://routing.openstreetmap.de/about.html).
+Le fond OpenStreetMap France reste disponible comme secours manuel. Si le fond
+est lent ou indisponible, **Changer de fond** remplace la couche sans modifier les
+séances, le trajet ou le repère de position. **Réessayer** garde le fond courant.
+Les tuiles sont demandées après le déplacement et à la fin du zoom, en respectant
+le cache normal du navigateur. Le fond standard suit les
+[conditions d’utilisation OSM](https://operations.osmfoundation.org/policies/tiles/),
+sans préchargement ni téléchargement massif.
 Profils à pied et à vélo, sans clé API. Calculs volontaires, espacés d’au moins
 1,1 seconde, annulables, avec délai de 15 secondes. Aucun calcul en arrière-plan.
 
@@ -116,7 +129,7 @@ personnelle en distinguant ses propres contributions.
 
 - Leaflet : BSD-2-Clause, licence inchangée dans `vendor/leaflet/LICENSE`.
 - Manrope, plus chargée par cette version : licence conservée dans `vendor/fonts/OFL.txt`.
-- Carte : contributeurs OpenStreetMap, tuiles OpenStreetMap France.
+- Carte : contributeurs OpenStreetMap ; fond standard OpenStreetMap, secours OpenStreetMap France.
 - Itinéraires : FOSSGIS / OSRM, données OpenStreetMap.
 
 Le dépôt reste local. Aucun push, dépôt GitHub ou hébergement.

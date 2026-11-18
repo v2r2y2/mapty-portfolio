@@ -60,6 +60,12 @@
         "displayName": "focus",
         "role": "functional"
       },
+      "position": {
+        "displayName": "position",
+        "role": "functional",
+        "value": "#1769d2",
+        "purpose": "Repère de position, distinct des trajets A/B ; précision matérialisée par un cercle non animé."
+      },
       "control-border": {
         "displayName": "control-border",
         "role": "neutral"
